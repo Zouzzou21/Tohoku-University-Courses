@@ -1,0 +1,59 @@
+# Use a CUDA image with a lightweight runtime based on Ubuntu
+FROM nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu20.04
+
+# Set the environment variable to make the installation non-interactive
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install necessary dependencies and Python
+RUN apt-get update && apt-get install -y \
+    wget \
+    curl \
+    bzip2 \
+    git \
+    build-essential \
+    libssl-dev \
+    libffi-dev \
+    tzdata \
+    python3.9 \
+    python3.9-venv \
+    python3.9-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Configure the timezone (example: Europe/Paris)
+RUN ln -fs /usr/share/zoneinfo/Europe/Paris /etc/localtime && \
+    dpkg-reconfigure --frontend noninteractive tzdata
+
+# Create a symbolic link so that 'python' uses 'python3.9'
+RUN ln -s /usr/bin/python3.9 /usr/bin/python
+
+# # Download and install Anaconda (in /opt/conda)
+# RUN wget https://repo.anaconda.com/archive/Anaconda3-2023.07-1-Linux-x86_64.sh -O ~/anaconda.sh && \
+#     bash ~/anaconda.sh -b -p /opt/conda && \
+#     rm ~/anaconda.sh
+
+# # Add Anaconda to PATH
+# ENV PATH="/opt/conda/bin:${PATH}"
+
+# # Update Conda and install basic Python packages
+# RUN conda update -n base -c defaults conda && \
+#     conda install numpy scipy matplotlib pandas
+
+# # Configure Conda to not ask for confirmation when installing packages
+# RUN conda config --set always_yes yes --set changeps1 no
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the requirements.txt file into the container
+COPY requirements.txt .
+
+# Install Python dependencies from the requirements.txt file
+RUN pip install --no-cache-dir -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cu118
+
+# Copy all Python files into the container
+COPY *.py .
+
+# Run the Python script when the container starts
+CMD ["python", "main.py"]
+
+# Run the image: docker run --gpus all tohokuuniversitycourses-colabs:latest

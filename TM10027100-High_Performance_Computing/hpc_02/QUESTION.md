@@ -1,0 +1,4 @@
+# Question #1
+Suppose a scalar processor and a vector processor. The scalar processor is 32 times faster than the vector processor when executing a program with only scalar instructions. But, the vector processor has vector instructions, each of which can replace 256 scalar instructions, so execution of a single vector instruction is 256 times faster than that of 256 scalar instructions on the vector processor. This is not a very realistic assumption but just a simplified performance model of vector processor. The vectorization ratio based on the vector instruction fraction is 95%. Then what is the ratio of vector processor's execution time over the scalar one's? How does the ratio change for the vectorization ratio of 99%?
+
+# Answer [ans-02.pdf](ans-02.pdf)

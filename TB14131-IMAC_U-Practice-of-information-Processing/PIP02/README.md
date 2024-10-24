@@ -1,5 +1,5 @@
 # Practice of Information Processing (IMACU) - Lecture 2
-
+[PIP02_slide_2024.pdf](PIP02_slide_2024.pdf)
 ## Instructor Information
 - **Lecturer**: Makoto Hirota
   - **Position**: Associate Professor, Institute of Fluid Science

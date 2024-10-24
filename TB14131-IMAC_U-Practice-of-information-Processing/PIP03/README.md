@@ -1,5 +1,5 @@
 # Practice of Information Processing (IMACU) - Third Lecture
-
+[PIP03_slide2024.pdf](PIP03_slide2024.pdf)
 ## Instructor: Makoto Hirota
 
 ### Part 1: Review and Introduction to Iteration and Selection

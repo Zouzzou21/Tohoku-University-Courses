@@ -4,6 +4,34 @@ Instructor: Hiroyuki Takizawa
 
 ---
 
+## Table of Contents
+
+1. [SIMD Overview](#simd-overview)
+2. [Sharing a Memory Space](#sharing-a-memory-space)
+3. [Basic Network Topology](#basic-network-topology)
+4. [Basic Network Topology (continued)](#basic-network-topology-continued)
+5. [Parallel Algorithm Design](#parallel-algorithm-design)
+6. [Today's Topics](#todays-topics)
+7. [How to Run a Program on HPC?](#how-to-run-a-program-on-hpc)
+8. [Why Job Submission is Needed](#why-job-submission-is-needed)
+9. [Job Script File](#job-script-file)
+10. [Job Submission](#job-submission)
+11. [Job Scheduling](#job-scheduling)
+12. [Workflows](#workflows)
+13. [Technical Challenges](#technical-challenges)
+14. [Various Workloads](#various-workloads)
+15. [Task/Channel Model (Ian Foster, 1995)](#taskchannel-model-ian-foster-1995)
+16. [Synchronous vs Asynchronous Communication](#synchronous-vs-asynchronous-communication)
+17. [Execution Time](#execution-time)
+18. [Foster’s Design Methodology](#fosters-design-methodology)
+19. [Finding the Sum](#finding-the-sum)
+20. [Parallel Reduction Design](#parallel-reduction-design)
+21. [n-Body Problem](#n-body-problem)
+22. [Other Communication Patterns](#other-communication-patterns)
+23. [Summary](#summary)
+
+---
+
 ## SIMD Overview
 - **Vector Lane**: Pathway for each data item to be processed.
 - **Vector Width**: Width of the vector unit, usually expressed in bits.
@@ -233,24 +261,47 @@ The **Task/Channel Model** defines parallel computation as a set of **tasks** th
 
 ---
 
-## Case Study: Boundary Value Problem
-- **Rod Insulation**: An example where heat conduction is computed over time using a difference method.
+## Finding the Sum
+- **Suppose a set of $n$ values, $a_0,a_1,...a_{n-1}$, and an associative binary operator $\times$**.
+- **Let's consider a parallel reduction algorithm for summing up $n$ values**.
 
 ---
 
 ## Parallel Reduction Design
-- **Reduction**: Summing values across tasks. Performed in `log n` communication steps using binomial trees.
+- **Partitioning**:
+    - **One data item per grid point**: The rod at each time step is decomposed into pieces (grid points) in a uniform way
+    - **Associate one primative task with each grid point and each time step**
+- **Communication**:
+    - **Identify communication pattern between primitive tasks**
+    - **Each interior primitive task has three incoming and three outgoing channels**
+- **Reduction**: Summing values across tasks. Performed in $\log{n}$ communication steps using binomial trees.
 - **Agglomeration**: Tasks are grouped to minimize communication, and the mapping assigns them to processors.
 
 ---
 
 ## n-Body Problem
-- **Newtonian Simulation**: Parallel algorithm designed for simulating particle motion.
-- **All-gather Communication**: Needed to update particle positions and velocities in `log p` communication steps.
+- **Newtonian Simulation**: Parallel algorithm designed for simulating particle motion. Complexity $O(n^2)$
+- **Partitionin**: Divide the problem as finely as possible => $n$ tasks.
+- **Communication**:
+    - **Gather operation**: Global communication for **a single task** to collect data items dristributed among other tasks.
+    - **All-gather operation**: Global communication for **every task** to collect data items distributed among other tasks.
+- **All-gather Communication**: Needed to update particle positions and velocities in $\log{p}$ communication steps.
+- **Agglomeration and Mapping**:
+    - Generally $n >> p$.
+    - So each takes one agglomerated task of $\frac{n}{p}$ particles.
+- **Perfomance Analysis**: \
+$\beta$ : bandwidth (data items sent in one unit of time) \
+$\lambda$ : latency (time to inititate a message) \
+$X$ : time for gravitational force computation \
+The communication time per iteration: \
+$\sum_{i = 1}^{\log{p}} (\lambda + \frac{2^{i - 1} \times \frac{n}{p}}{\beta}) = \lambda \log{p} + \frac{n(p-1)}{\beta p}$ \
+The overall execution time per iteration: \
+$\lambda \log{p} + \frac{n(p-1)}{\beta p} + X \frac{n}{p}$
 
 ---
 
 ## Other Communication Patterns
+- **Most programs input and output data**: Let’s add I/O channels to T/C model.
 - **Scatter Operation**: Opposite of gather; involves distributing data across tasks.
 
 ---

@@ -48,3 +48,30 @@ Class materials are available on Google Classroom, and students are expected to 
 - **SIMD**: Single Instruction, Multiple Data processing.
 - **Network Topologies**: Different network structures and their impact on performance.
 - **Message Collision**: Handling communication conflicts in shared networks.
+
+
+## Class ([hpc_03](hpc_03/))
+### Notes about the second class: [README.md](hpc_03/README.md)
+1. [SIMD Overview](hpc_03/README.md/#simd-overview)
+2. [Sharing a Memory Space](hpc_03/README.md/#sharing-a-memory-space)
+3. [Basic Network Topology](hpc_03/README.md/#basic-network-topology)
+4. [Basic Network Topology (continued)](hpc_03/README.md/#basic-network-topology-continued)
+5. [Parallel Algorithm Design](hpc_03/README.md/#parallel-algorithm-design)
+6. [Today's Topics](hpc_03/README.md/#todays-topics)
+7. [How to Run a Program on HPC?](hpc_03/README.md/#how-to-run-a-program-on-hpc)
+8. [Why Job Submission is Needed](hpc_03/README.md/#why-job-submission-is-needed)
+9. [Job Script File](hpc_03/README.md/#job-script-file)
+10. [Job Submission](hpc_03/README.md/#job-submission)
+11. [Job Scheduling](hpc_03/README.md/#job-scheduling)
+12. [Workflows](hpc_03/README.md/#workflows)
+13. [Technical Challenges](hpc_03/README.md/#technical-challenges)
+14. [Various Workloads](hpc_03/README.md/#various-workloads)
+15. [Task/Channel Model (Ian Foster, 1995)](hpc_03/README.md/#taskchannel-model-ian-foster-1995)
+16. [Synchronous vs Asynchronous Communication](hpc_03/README.md/#synchronous-vs-asynchronous-communication)
+17. [Execution Time](hpc_03/README.md/#execution-time)
+18. [Foster’s Design Methodology](hpc_03/README.md/#fosters-design-methodology)
+19. [Finding the Sum](hpc_03/README.md/#finding-the-sum)
+20. [Parallel Reduction Design](hpc_03/README.md/#parallel-reduction-design)
+21. [n-Body Problem](hpc_03/README.md/#n-body-problem)
+22. [Other Communication Patterns](hpc_03/README.md/#other-communication-patterns)
+23. [Summary](hpc_03/README.md/#summary)

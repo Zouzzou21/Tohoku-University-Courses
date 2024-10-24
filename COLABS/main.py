@@ -9,11 +9,10 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score
 import matplotlib.pyplot as plt
 
 # Downloading the dataset
-def download_and_extract_tar_gz(file_id='11Sm64svCR4nhI7fBBPuYT43JwVJoC-Ev', extract_to='data'):
+def download_and_extract_tar_gz_dataset_from_gdrive(file_id='11Sm64svCR4nhI7fBBPuYT43JwVJoC-Ev', extract_to='data'):
     """
     Downloads a .tar.gz file from Google Drive, extracts it, 
     and deletes the original .tar.gz file.
-    
     Args:
         file_id (str): The Google Drive file ID.
         extract_to (str): Directory to extract the contents to. Default is 'extracted_data'.

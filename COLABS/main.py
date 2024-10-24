@@ -1,13 +1,44 @@
-import torch
+import os, tarfile, gdown, torch
 import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
 from torch.utils.data import DataLoader, Dataset
 from torchvision import transforms
 from PIL import Image
-import os
 from sklearn.metrics import accuracy_score, precision_score, recall_score
 import matplotlib.pyplot as plt
+
+# Downloading the dataset
+def download_and_extract_tar_gz(file_id='11Sm64svCR4nhI7fBBPuYT43JwVJoC-Ev', extract_to='data'):
+    """
+    Downloads a .tar.gz file from Google Drive, extracts it, 
+    and deletes the original .tar.gz file.
+    
+    Args:
+        file_id (str): The Google Drive file ID.
+        extract_to (str): Directory to extract the contents to. Default is 'extracted_data'.
+    """
+
+    # Step 1: Download the file
+    url = f"https://drive.google.com/uc?id={file_id}"
+    output = "data.tar.gz"
+    
+    print("Starting download...")
+    gdown.download(url, output, quiet=False)
+
+    # Step 2: Extract the tar.gz file
+    print(f"Extracting {output} to {extract_to}...")
+    with tarfile.open(output, "r:gz") as tar:
+        tar.extractall(path=extract_to)
+    print(f"Extraction complete! Files are in: {os.path.abspath(extract_to)}")
+
+    # Step 3: Delete the .tar.gz file
+    if os.path.exists(output):
+        os.remove(output)
+        print(f"{output} has been deleted.")
+    else:
+        print(f"{output} not found, skipping deletion.")
+
 
 # Custom dataset to load MRI images
 class TumorDataset(Dataset):

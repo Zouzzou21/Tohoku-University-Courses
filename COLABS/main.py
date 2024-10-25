@@ -20,6 +20,44 @@ def download_and_extract_tar_gz_dataset_from_gdrive(file_id='11Sm64svCR4nhI7fBBP
         tar.extractall(path=extract_to)
     os.remove(output) if os.path.exists(output) else print(f"{output} not found.")
 
+# Display available GPUs
+def get_gpu_device():
+    if torch.cuda.is_available():
+        gpu_count = torch.cuda.device_count()
+        for i in range(gpu_count):
+            device_properties = torch.cuda.get_device_properties(i)
+            total_memory = device_properties.total_memory / 1024**3  # Convert from bytes to GB
+            print(f"GPU {i}: {torch.cuda.get_device_name(i)}")
+            print(f"Total Memory: {total_memory:.2f} GB")
+            print(f"Memory Allocated: {torch.cuda.memory_allocated(i) / 1024**3:.2f} GB")
+            print(f"Memory Cached: {torch.cuda.memory_reserved(i) / 1024**3:.2f} GB")
+            print(f"CUDA Capability: {torch.cuda.get_device_capability(i)}\n")
+        return torch.device(f"cuda")
+    else:
+        print("No GPU available.")
+        return torch.device("cpu")
+
+# Saving the model
+def save_model(model):
+    model_name = input("Enter the path for the saved model (with .pth extension): ")
+    if not model_name.endswith('.pth'):
+        model_name += '.pth'
+    torch.save(model.state_dict(), model_name)
+    print("Model {model_name} saved!")
+
+# Load the model on the appropriate device
+def load_model(model):
+    model_name = input("Enter the path for the model to load (with .pth extension): ")
+    if not model_name.endswith('.pth'):
+        model_name += '.pth'
+    device = get_gpu_device()  # Get the appropriate device (CUDA or CPU)
+    state_dict = torch.load(model_name, map_location=device, weights_only=True)
+    model.load_state_dict(state_dict)
+    model.to(device)  # Move the model to the device
+    model.eval()
+    print(f"Model {model_name} loaded on {device}!")
+    return model
+
 # Custom dataset to load MRI images
 class TumorDataset(Dataset):
     def __init__(self, image_dir, transform=None):
@@ -59,7 +97,7 @@ class TumorDetectionCNN(nn.Module):
         return x
 
 # Training function
-def train_model(model, train_loader, num_epochs=5):
+def train_model(model, train_loader, num_epochs=1):
     print("Starting training...")
     model.train()
     for epoch in range(num_epochs):
@@ -95,29 +133,7 @@ def evaluate_model(model, test_loader):
     print(f'Accuracy: {accuracy}, Precision: {precision}, Recall: {recall}')
     print("Evaluation completed.")
 
-# Visualizing predictions
-def visualize_predictions(model, test_loader, num_images=5):
-    print("Visualizing predictions...")
-    model.eval()
-    images_shown = 0
-    with torch.no_grad():
-        for images, labels in test_loader:
-            images, labels = images.to(device), labels.to(device)
-            outputs = model(images).squeeze()
-            preds = torch.round(outputs)
-            for i in range(len(images)):
-                if images_shown >= num_images:
-                    return
-                image = images[i].permute(1, 2, 0).cpu().numpy()
-                label = labels[i].item()
-                pred = preds[i].item()
-                plt.imshow(image)
-                plt.title(f"True: {label}, Pred: {pred}")
-                plt.show()
-                images_shown += 1
-    print("Visualization completed.")
-
-    # Function to test the model on the test dataset and calculate accuracy
+# Function to test the model on the test dataset and calculate accuracy
 def test_model(model, test_loader):
     print("Testing model...")
     model.eval()
@@ -134,43 +150,35 @@ def test_model(model, test_loader):
     print(f'Correct prediction: {correct} out of a total of {total}')
     print("Testing completed.")
 
-def save_model(model):
-    # Saving the model
-    model_name = input("Enter the path for the saved model (with .pth extension): ")
-    if not model_name.endswith('.pth'):
-        model_name += '.pth'
-    torch.save(model.state_dict(), model_name)
-    print("Model {model_name} saved!")
-
-def load_model(model):
-    # Load the model on the appropriate device
-    model_name = input("Enter the path for the model to load (with .pth extension): ")
-    if not model_name.endswith('.pth'):
-        model_name += '.pth'
-    device = get_gpu_device()  # Get the appropriate device (CUDA or CPU)
-    state_dict = torch.load(model_name, map_location=device, weights_only=True)
-    model.load_state_dict(state_dict)
-    model.to(device)  # Move the model to the device
+# Visualizing predictions
+def visualize_predictions(model, test_loader, num_images=5):
+    print("Visualizing predictions...")
     model.eval()
-    print(f"Model {model_name} loaded on {device}!")
-    return model
-
-def get_gpu_device():
-    # Display available GPUs
-    if torch.cuda.is_available():
-        gpu_count = torch.cuda.device_count()
-        for i in range(gpu_count):
-            device_properties = torch.cuda.get_device_properties(i)
-            total_memory = device_properties.total_memory / 1024**3  # Convert from bytes to GB
-            print(f"GPU {i}: {torch.cuda.get_device_name(i)}")
-            print(f"Total Memory: {total_memory:.2f} GB")
-            print(f"Memory Allocated: {torch.cuda.memory_allocated(i) / 1024**3:.2f} GB")
-            print(f"Memory Cached: {torch.cuda.memory_reserved(i) / 1024**3:.2f} GB")
-            print(f"CUDA Capability: {torch.cuda.get_device_capability(i)}\n")
-        return torch.device(f"cuda")
-    else:
-        print("No GPU available.")
-        return torch.device("cpu")
+    images_shown = 0
+    with torch.no_grad():
+        for images, labels in test_loader:
+            images, labels = images.to(device), labels.to(device)
+            outputs = model(images).squeeze()
+            preds = torch.round(outputs)
+            for i in range(len(images)):
+                if images_shown >= num_images:
+                    return
+                image = images[i].permute(1, 2, 0).cpu().numpy()
+                original_image = test_loader.dataset.dataset.images[test_loader.dataset.indices[i]]
+                original_image = Image.open(original_image).convert('RGB')
+                label = labels[i].item()
+                pred = preds[i].item()
+                # Display original image
+                plt.subplot(1, 2, 1)
+                plt.imshow(original_image)
+                plt.title("Original Image")
+                # Display transformed image
+                plt.subplot(1, 2, 2)
+                plt.imshow(image)
+                plt.title(f"True: {label}, Pred: {pred}")
+                plt.show()
+                images_shown += 1
+    print("Visualization completed.")
 
 
 # Image transformations
@@ -208,16 +216,18 @@ criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight)
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 
 # Training the model
-train_model(model, train_loader)
+# train_model(model, train_loader)
 
 # Save the model
-save_model(model)
+# save_model(model)
 
 # Evaluating the model
-evaluate_model(model, test_loader)
+# evaluate_model(model, test_loader)
 
 # Testing the model
-test_model(model, test_loader)
+# test_model(model, test_loader)
+
+model = load_model(model)
 
 # Visualizing some predictions
 visualize_predictions(model, test_loader)

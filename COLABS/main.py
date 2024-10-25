@@ -48,8 +48,13 @@ def save_model(model):
 # Load the model on the appropriate device
 def load_model(model):
     model_name = input("Enter the path for the model to load (with .pth extension): ")
-    if not model_name.endswith('.pth'):
-        model_name += '.pth'
+    print(f'Model name: |{model_name}|')
+    if model_name == "":
+        print("No model provided. Using default model.")
+        model_name = 'model/model.pth'
+    else:
+        if not model_name.endswith('.pth'):
+            model_name += '.pth'
     device = get_gpu_device()  # Get the appropriate device (CUDA or CPU)
     state_dict = torch.load(model_name, map_location=device, weights_only=True)
     model.load_state_dict(state_dict)
@@ -60,7 +65,7 @@ def load_model(model):
 
 # Custom dataset to load MRI images
 class TumorDataset(Dataset):
-    def __init__(self, image_dir, transform=None):
+    def __init__(self, image_dir = 'data/', transform=None):
         self.image_dir = image_dir
         self.transform = transform
         self.images, self.labels = [], []
@@ -97,7 +102,8 @@ class TumorDetectionCNN(nn.Module):
         return x
 
 # Training function
-def train_model(model, train_loader, num_epochs=1):
+def train_model(model, train_loader, num_epochs=5):
+    num_epochs = input("Enter the number of epochs: ")
     print("Starting training...")
     model.train()
     for epoch in range(num_epochs):
@@ -191,8 +197,7 @@ transform = transforms.Compose([
 
 # Loading data
 print("Loading dataset...")
-image_dir = 'data/'  # Remplacez par le chemin vers votre dataset
-dataset = TumorDataset(image_dir=image_dir, transform=transform)
+dataset = TumorDataset(transform=transform)
 
 # Train/test split
 print("Splitting dataset into train and test sets...")

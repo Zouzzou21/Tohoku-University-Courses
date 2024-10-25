@@ -74,3 +74,15 @@ Choosen one:
     - [***BrainMRI-Tumor-Classifier-Pytorch***](https://github.com/HalemoGPA/BrainMRI-Tumor-Classifier-Pytorch)
     - [***Brain Tumor Segmentation and Survival Prediction Using Multimodal MRI Scans With Deep Learning***](https://www.frontiersin.org/journals/neuroscience/articles/10.3389/fnins.2019.00810/full)
     - [***MRI-based brain tumor detection using convolutional deep learning methods and chosen machine learning techniques***](https://bmcmedinformdecismak.biomedcentral.com/articles/10.1186/s12911-023-02114-6)
+
+---
+
+Model infos:
+
+
+---
+
+Research:
+
+
+---

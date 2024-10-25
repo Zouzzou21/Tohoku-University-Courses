@@ -3,3 +3,4 @@ Test*
 data*
 *.pth
 model/
+main_gpu.py

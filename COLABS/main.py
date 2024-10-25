@@ -140,7 +140,20 @@ def save_model(model):
     if not model_name.endswith('.pth'):
         model_name += '.pth'
     torch.save(model.state_dict(), model_name)
-    print("Model saved!")
+    print("Model {model_name} saved!")
+
+def load_model(model):
+    # Load the model on the appropriate device
+    model_name = input("Enter the path for the model to load (with .pth extension): ")
+    if not model_name.endswith('.pth'):
+        model_name += '.pth'
+    device = get_gpu_device()  # Get the appropriate device (CUDA or CPU)
+    state_dict = torch.load(model_name, map_location=device, weights_only=True)
+    model.load_state_dict(state_dict)
+    model.to(device)  # Move the model to the device
+    model.eval()
+    print(f"Model {model_name} loaded on {device}!")
+    return model
 
 def get_gpu_device():
     # Display available GPUs
@@ -159,7 +172,6 @@ def get_gpu_device():
         print("No GPU available.")
         return torch.device("cpu")
 
-device = get_gpu_device()
 
 # Image transformations
 print("Applying image transformations...")
@@ -187,6 +199,7 @@ test_loader = DataLoader(test_dataset, batch_size=32, shuffle=False)
 
 # Initializing the model, loss function, and optimizer
 print("Initializing model, loss function, and optimizer...")
+device = get_gpu_device()
 model = TumorDetectionCNN().to(device)
 # criterion = nn.BCELoss()
 # criterion = nn.BCEWithLogitsLoss()
@@ -203,6 +216,7 @@ save_model(model)
 # Evaluating the model
 evaluate_model(model, test_loader)
 
+# Testing the model
 test_model(model, test_loader)
 
 # Visualizing some predictions

@@ -1,6 +1,7 @@
-# C4TL1205 - LANDY Lucas (COLABS Student)
-## [TB14131] (IMAC-U)　情報処理演習
-### report1_C4TL1205
+# [TB14131] (IMAC-U) - 情報処理演習
+## C4TL1205 - LANDY Lucas (COLABS Student) - [lucas.landy.t3@dc.tohoku.ac.jp](mailto:lucas.landy.t3@dc.tohoku.ac.jp)
+
+---
 
 # Table of Contents
 1. [Program 1: ```score_sheet.c```](#program-1-score_sheetc)
@@ -21,29 +22,32 @@
 The purpose of the score_sheet.c program is to display the scores of students in three subjects, compute statistics such as the **total score**, **average**, and **deviation values**, **rank students by performance**, and **provide feedback for individual students**.
 
 ## Explanation of the Code:
-1. Core Variables:
+1. **Core Variables**:
     - ```score[ID_NUM][SUB_NUM]```: A 2D array storing the scores of 10 students across 3 subjects.
     -   ```totalScores[]```: Stores the total scores for each student, used for ranking.
     - ```subjectAvg[]``` and ```subjectDev[]```: Store the **average** and **standard deviation** of scores for each subject.
 
-2. Key Functions:
+2. **Key Functions**:
     - ```calculateAverage()```: Computes the average score for a subject.
     - ```calculateDeviation()```: Computes the standard deviation of subject scores.
+    - ```calculateTotalAverage()```: Computes the total average score.
     - ```getRank()```: Assigns ranks (A to D) based on the total score.
     - ```giveFeedback()```: Provides feedback for subjects where the student performed poorly (score < 70).
     - ```bubbleSort()```: Sorts students based on their total scores in descending order.
 
-3. Execution Flow:
+3. **Execution Flow**:
     1. The program calculates **total scores, averages,** and deviations for all subjects.
     2. It **sorts students** by their total scores and displays a **ranking**.
-    3. The user is prompted to **enter a student ID** (between 0–9).
-    4. The program displays the **selected student's score sheet**, including the **total score, average, rank**, and **feedback**.
-    5. It prints **deviation values** for the selected student.
+    3. Subject-wise Average: Displays the average score for each subject across all students.
+    4. Averaged Total Score: Computes the overall average of total scores from all students.
+    5. The user is prompted to **enter a student ID** (between 0–9).
+    6. The program displays the **selected student's score sheet**, including the **total score, average, rank**, and **feedback**.
+    7. It prints **deviation values** for the selected student.
 
 ## Execution Result:
 ### Input:
 ```c
-Enter student ID (0-9): 2
+Enter student ID (0-9): 3
 ```
 
 ### Output:
@@ -53,23 +57,31 @@ Rank  ID  Total  Rank
   1    5   290    A
   2    8   273    A
   3    6   263    B
-  4    7   263    B
-  5    0   258    B
-  6    4   249    B
+  4    0   258    B
+  5    4   249    B
+  6    7   244    B
   7    2   221    C
   8    3   220    C
   9    9   208    D
  10    1   201    D
 
-Score Sheet for Student ID: 2
-SUB1  SUB2  SUB3  Total  Average  Rank
- 65    83    73   221   73.67    C
-Feedback: Improve in SUB1. Good performance overall!
+Averaged Scores for Each Subject:
+SUB1: 77.50
+SUB2: 85.40
+SUB3: 79.80
+Averaged Total Score (All Students): 242.70
 
-Deviation values for Student ID 2:
-SUB1: -1.11
-SUB2: 0.50
-SUB3: -0.33
+Enter student ID (0-9): 3
+
+Score Sheet for Student ID: 3
+SUB1  SUB2  SUB3  Total  Average  Rank
+ 75    80    65   220   73.33    C
+Feedback: Improve in SUB3.
+
+Deviation values for Student ID 3:
+SUB1: -0.30
+SUB2: -0.58
+SUB3: -1.27
 ```
 
 ## In-Depth Work and Demonstrations:
@@ -97,7 +109,9 @@ The program computes **real and complex roots** depending on the discriminant va
 1. **Core Variables**:
     - ```a```, ```b```, and ```c```: Coefficients for the quadratic equation.
     - ```discriminant```: The value $b  ^ 2 - 4ac$  used to determine the nature of the roots.
-2. **Key Logic**:
+2. **Key Functions**:
+    - ```calculateRoots()```: Takes between the values ​​of a,b and c and calculates the roots.
+3. **Key Logic**:
     - **Discriminant Calculation**:
         - If the discriminant is **positive**, the equation has two distinct real roots.
         - If the discriminant is **zero**, the equation has one repeated real root.
@@ -115,13 +129,13 @@ The program computes **real and complex roots** depending on the discriminant va
 #### Input:
 ```c
 Enter coefficients a, b, and c (for ax^2 + bx + c = 0):
-1 -3 -4
+1 4 0.00000000000001
 ```
 #### Output:
 ```c
 The roots are real and different:
-Root 1 = 4.000000
-Root 2 = -1.000000
+Root 1 = -0.000000
+Root 2 = -4.000000
 ```
 
 ### If the discriminant is **zero**
@@ -166,7 +180,7 @@ Root 2 = -1.000000 - 2.000000i
 # Comparison and Related Concepts:
 1. **Mathematical Background**:
     - Both programs involve mathematical computations—one for **statistics** (averages, deviations) and the other for **quadratic equations** (roots, discriminants).
-2. Applications:
+2. **Applications**:
     - ```score_sheet.c```: Useful in academic settings for analyzing student performance and generating reports.
     - ```root.c```: Demonstrates how **polynomial equations** are solved, which has applications in physics, engineering, and data science.
 3. **Software Design Patterns**:

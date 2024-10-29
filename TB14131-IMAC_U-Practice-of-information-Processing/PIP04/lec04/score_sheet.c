@@ -8,6 +8,7 @@
 /* Function prototypes */
 float calculateAverage(int scores[], int size);
 float calculateDeviation(int scores[], int size, float mean);
+float calculateTotalAverage(int totalScores[], int size);
 char getRank(int total);
 void giveFeedback(int scores[]);
 void bubbleSort(int totalScores[], int ids[], int size);
@@ -22,6 +23,7 @@ int main() {
 
     int totalScores[ID_NUM], ids[ID_NUM];
     float subjectAvg[SUB_NUM], subjectDev[SUB_NUM];
+    float averageTotalScore;
     int id, total = 0;
     float average;
 
@@ -44,6 +46,9 @@ int main() {
         subjectDev[j] = calculateDeviation(subjectScores, ID_NUM, subjectAvg[j]);
     }
 
+    /* Calculate the averaged total score (all students' total scores) */
+    averageTotalScore = calculateTotalAverage(totalScores, ID_NUM);
+
     /* Sort students by total score */
     bubbleSort(totalScores, ids, ID_NUM);
 
@@ -55,6 +60,13 @@ int main() {
                i + 1, ids[i], totalScores[i], getRank(totalScores[i]));
     }
     printf("\n");
+
+    /* Display average scores for each subject */
+    printf("Averaged Scores for Each Subject:\n");
+    for (int j = 0; j < SUB_NUM; j++) {
+        printf("SUB%d: %.2f\n", j + 1, subjectAvg[j]);
+    }
+    printf("Averaged Total Score (All Students): %.2f\n\n", averageTotalScore);
 
     /* Prompt user for student ID */
     printf("Enter student ID (0-9): ");
@@ -69,7 +81,7 @@ int main() {
     printf("\nScore Sheet for Student ID: %d\n", id);
     printf("SUB1  SUB2  SUB3  Total  Average  Rank\n");
 
-    /* Calculate total and average */
+    /* Calculate total and average for the selected student */
     for (int j = 0; j < SUB_NUM; j++) {
         total += score[id][j];
     }
@@ -110,6 +122,15 @@ float calculateDeviation(int scores[], int size, float mean) {
         sum += diff * diff;
     }
     return sqrt(sum / size);
+}
+
+/* Function to calculate the averaged total score */
+float calculateTotalAverage(int totalScores[], int size) {
+    int sum = 0;
+    for (int i = 0; i < size; i++) {
+        sum += totalScores[i];
+    }
+    return sum / (float)size;
 }
 
 /* Function to determine rank based on total score */

@@ -3,3 +3,4 @@ Test*
 data*
 *.pth
 main_*
+state_machine.py

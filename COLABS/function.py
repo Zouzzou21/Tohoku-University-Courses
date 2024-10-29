@@ -1,11 +1,10 @@
 import os, tarfile, gdown, torch
 import torch.nn as nn
-import torch.optim as optim
 import torch.nn.functional as F
-from torch.utils.data import DataLoader, Dataset
 from torchvision import transforms
+from torch.utils.data import Dataset
 from PIL import Image
-from sklearn.metrics import accuracy_score, precision_score, recall_score
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 import matplotlib.pyplot as plt
 
 # Downloading the dataset
@@ -48,7 +47,6 @@ def save_model(model):
 # Load the model on the appropriate device
 def load_model(model, device):
     model_name = input("Enter the path for the model to load (with .pth extension): ")
-    print(f'Model name: |{model_name}|')
     if model_name == "":
         print("No model provided. Using default model.")
         model_name = 'model/model.pth'
@@ -98,7 +96,8 @@ class TumorDetectionCNN(nn.Module):
         x = self.pool(F.relu(self.conv2(x)))
         x = x.view(-1, 64 * 56 * 56)
         x = F.relu(self.fc1(x))
-        x = torch.sigmoid(self.fc2(x))
+        x = self.fc2(x)
+        # x = torch.sigmoid(self.fc2(x))
         return x
 
 # Training function
@@ -121,42 +120,99 @@ def train_model(model, optimizer, criterion, train_loader, device, num_epochs=5)
     print("Training completed.")
 
 # Evaluation function
-def evaluate_model(model, test_loader, device):
-    print("Evaluating model...")
-    model.eval()
-    all_preds, all_labels = [], []
-    with torch.no_grad():
-        for images, labels in test_loader:
-            images, labels = images.to(device), labels.to(device)
-            # print(f"Predictions: {all_preds[:10]}, Labels: {all_labels[:10]}")
-            outputs = model(images)
-            preds = torch.round(outputs).squeeze()
-            all_preds.extend(preds.cpu().numpy())
-            all_labels.extend(labels.cpu().numpy())
-    accuracy = accuracy_score(all_labels, all_preds)
-    precision = precision_score(all_labels, all_preds)
-    recall = recall_score(all_labels, all_preds)
-    print(f'Accuracy: {accuracy}, Precision: {precision}, Recall: {recall}')
-    print("Evaluation completed.")
+# def evaluate_model(model, test_loader, device):
+#     print("Evaluating model...")
+#     model.eval()
+#     all_preds, all_labels = [], []
+#     with torch.no_grad():
+#         for images, labels in test_loader:
+#             images, labels = images.to(device), labels.to(device)
+#             # print(f"Predictions: {all_preds[:10]}, Labels: {all_labels[:10]}")
+#             outputs = model(images)
+#             preds = torch.round(outputs).squeeze()
+#             all_preds.extend(preds.cpu().numpy())
+#             all_labels.extend(labels.cpu().numpy())
+#     accuracy = accuracy_score(all_labels, all_preds)
+#     precision = precision_score(all_labels, all_preds)
+#     recall = recall_score(all_labels, all_preds)
+#     print(f'Accuracy: {accuracy}, Precision: {precision}, Recall: {recall}')
+#     print("Evaluation completed.")
 
 # Function to test the model on the test dataset and calculate accuracy
 def test_model(model, test_loader, device):
+# Enhanced test_model function to identify class-specific errors
     print("Testing model...")
-    model.eval()
-    correct = 0
+    model.eval()  # Set model to evaluation mode
     total = 0
-    with torch.no_grad():
+    correct = 0
+    # Initialize counters for errors per class
+    class_errors = {'no_tumor': 0, 'tumor': 0}
+    class_totals = {'no_tumor': 0, 'tumor': 0}
+    with torch.no_grad():  # Disable gradient tracking for testing
         for images, labels in test_loader:
+            # Move images and labels to the appropriate device (GPU/CPU)
             images, labels = images.to(device), labels.to(device)
-            outputs = model(images)
-            preds = torch.round(outputs).squeeze()
+            # Get model outputs and compute predictions
+            outputs = model(images).squeeze()
+            probs = torch.sigmoid(outputs)  # Get probabilities
+            preds = torch.round(probs)  # Round probabilities to 0 or 1
+            # Accumulate total and correct predictions
             total += labels.size(0)
-            correct += (preds == labels).sum().item() 
-    print(f'Test Accuracy: {correct / total * 100:.2f}%')
-    print(f'Correct prediction: {correct} out of a total of {total}')
+            correct += (preds == labels).sum().item()
+            # Track errors per class
+            for i in range(labels.size(0)):
+                true_label = int(labels[i].item())
+                pred_label = int(preds[i].item())
+                # Increment class-specific totals
+                if true_label == 0:
+                    class_totals['no_tumor'] += 1
+                else:
+                    class_totals['tumor'] += 1
+                # Increment errors if prediction is wrong
+                if true_label != pred_label:
+                    if true_label == 0:
+                        class_errors['no_tumor'] += 1
+                    else:
+                        class_errors['tumor'] += 1
+    # Calculate overall accuracy
+    accuracy = correct / total * 100
+    # Display overall accuracy and class-specific error rates
+    print(f'Test Accuracy: {accuracy:.2f}%')
+    print(f'Correct predictions: {correct} out of {total}')
+    # Display errors for each class
+    for class_name, total_count in class_totals.items():
+        error_count = class_errors[class_name]
+        error_rate = error_count / total_count * 100 if total_count > 0 else 0
+        print(f"Class '{class_name}' - Total: {total_count}, Errors: {error_count}, Error Rate: {error_rate:.2f}%")
     print("Testing completed.")
 
-# Visualizing predictions
+# Function to test the model and display confusion matrix
+def test_model_with_confusion_matrix(model, test_loader, device, threshold=0.5):
+    print("Testing model and analyzing errors with confusion matrix...")
+    model.eval()  # Set model to evaluation mode
+    all_preds = []
+    all_labels = []
+    with torch.no_grad():  # Disable gradient tracking for testing
+        for images, labels in test_loader:
+            images = images.to(device)
+            labels = labels.to(device)
+            # Get model outputs and compute predictions
+            outputs = model(images).squeeze()
+            probs = torch.sigmoid(outputs)  # Apply sigmoid for probability scores
+            preds = (probs >= threshold).float()  # Apply threshold to get binary predictions
+            # Collect all predictions and true labels
+            all_preds.extend(preds.cpu().numpy())
+            all_labels.extend(labels.cpu().numpy())
+    # Compute confusion matrix
+    cm = confusion_matrix(all_labels, all_preds)
+    # Display confusion matrix
+    disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=['No Tumor', 'Tumor'])
+    disp.plot(cmap='Blues')
+    plt.title('Confusion Matrix')
+    plt.show()
+    print("Confusion matrix displayed.")
+
+
 def visualize_predictions(model, test_loader, device, num_images=5):
     print("Visualizing predictions...")
     model.eval()
@@ -169,19 +225,84 @@ def visualize_predictions(model, test_loader, device, num_images=5):
             for i in range(len(images)):
                 if images_shown >= num_images:
                     return
-                image = images[i].permute(1, 2, 0).cpu().numpy()
-                original_image = test_loader.dataset.dataset.images[test_loader.dataset.indices[i]]
-                original_image = Image.open(original_image).convert('RGB')
+                # Ensure correct range for displaying (0-1 or 0-255)
+                image = images[i].cpu().numpy().transpose(1, 2, 0)
+                image = (image - image.min()) / (image.max() - image.min())  # Normalize to [0, 1]
+                # Load original image from path for comparison
+                original_image_path = test_loader.dataset.dataset.images[test_loader.dataset.indices[i]]
+                original_image = Image.open(original_image_path).convert('RGB')
                 label = labels[i].item()
                 pred = preds[i].item()
                 # Display original image
                 plt.subplot(1, 2, 1)
                 plt.imshow(original_image)
                 plt.title(f"Original: {'Tumor' if label == 1 else 'No Tumor'}")
-                # Display transformed image
+                plt.axis('off')
+                # Display prediction image with normalization fix
                 plt.subplot(1, 2, 2)
                 plt.imshow(image)
                 plt.title(f"Prediction: {'Tumor' if pred == 1 else 'No Tumor'}")
+                plt.axis('off')
                 plt.show()
                 images_shown += 1
     print("Visualization completed.")
+
+# Visualizing predictions
+# def visualize_predictions(model, test_loader, device, num_images=5):
+#     print("Visualizing predictions...")
+#     model.eval()
+#     images_shown = 0
+#     with torch.no_grad():
+#         for images, labels in test_loader:
+#             images, labels = images.to(device), labels.to(device)
+#             outputs = model(images).squeeze()
+#             preds = torch.round(outputs)
+#             for i in range(len(images)):
+#                 if images_shown >= num_images:
+#                     return
+#                 image = images[i].permute(1, 2, 0).cpu().numpy()
+#                 original_image = test_loader.dataset.dataset.images[test_loader.dataset.indices[i]]
+#                 original_image = Image.open(original_image).convert('RGB')
+#                 label = labels[i].item()
+#                 pred = preds[i].item()
+#                 # Display original image
+#                 plt.subplot(1, 2, 1)
+#                 plt.imshow(original_image)
+#                 plt.title(f"Original: {'Tumor' if label == 1 else 'No Tumor'}")
+#                 # Display transformed image
+#                 plt.subplot(1, 2, 2)
+#                 plt.imshow(image)
+#                 plt.title(f"Prediction: {'Tumor' if pred == 1 else 'No Tumor'}")
+#                 plt.show()
+#                 images_shown += 1
+#     print("Visualization completed.")
+
+# Function to preprocess the image
+def preprocess_image(image_path, transform):
+    transform = transforms.Compose([
+        transforms.Resize((224, 224)),  # Same size as training images
+        transforms.ToTensor(),
+        transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])  # Same normalization as training
+    ])
+    image = Image.open(image_path).convert('RGB')  # Ensure it's in RGB mode
+    image = transform(image).unsqueeze(0)  # Add batch dimension
+    return image
+
+# Function to make a prediction with the trained model
+def predict_image(model, device, image_path, transform):
+    # Display the image
+    img = Image.open(image_path)
+    plt.imshow(img)
+    plt.axis('off')
+    plt.title("Uploaded Image")
+    plt.show()
+    model.eval()  # Set model to evaluation mode
+    image = preprocess_image(image_path, transform).to(device)
+    with torch.no_grad():  # Disable gradient tracking
+        output = model(image).squeeze()
+        prob = torch.sigmoid(output).item()  # Get probability score
+    # Return prediction based on probability
+    if prob >= 0.5:
+        print(f"Prediction: Tumor (Confidence: {prob:.2f})")
+    else:
+        print(f"Prediction: No Tumor (Confidence: {1 - prob:.2f})")

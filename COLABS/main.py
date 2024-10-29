@@ -1,4 +1,6 @@
 import os
+from torch.utils.data import DataLoader
+import torch.optim as optim
 from function import *
 
 # Check if GPU is available
@@ -37,23 +39,45 @@ test_loader = DataLoader(test_dataset, batch_size=32, shuffle=False)
 # Initializing the model, loss function, and optimizer
 print("Initializing model, loss function, and optimizer...")
 model = TumorDetectionCNN().to(device)
-# model = load_model(model, device)
-pos_weight = torch.tensor([5], device=device)  # Adjust based on class imbalance
-# criterion = nn.BCELoss()
+model = load_model(model, device)
+pos_weight = torch.tensor([3.0], device=device)  # Adjust based on class imbalance
 criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight)
+# criterion = nn.BCELoss(weight=weights)
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 
 # Training the model
-train_model(model=model, optimizer=optimizer, criterion=criterion, train_loader=train_loader, device=device, num_epochs=1)
+# train_model(model=model, 
+#             optimizer=optimizer, 
+#             criterion=criterion, 
+#             train_loader=train_loader, 
+#             device=device, 
+#             num_epochs=10)
 
 # Save the model
 # save_model(model)
 
 # Evaluating the model
-evaluate_model(model=model, test_loader=test_loader, device=device)
+# evaluate_model(model=model, 
+#                test_loader=test_loader, 
+#                device=device)
 
-# Testing the model
-test_model(model=model, test_loader=test_loader, device=device)
 
-# Visualizing some predictions
-visualize_predictions(model=model, test_loader=test_loader, device=device, num_images=10)
+# Predict and print the result
+predict_image(model, device, input("Enter the image file path: "), transform)
+
+
+
+# Assuming your model and test_loader are already defined and device is set
+# test_model_with_confusion_matrix(model, test_loader, device, threshold=0.5)
+
+
+# # Testing the model
+# test_model(model=model, 
+#            test_loader=test_loader, 
+#            device=device)
+
+# # Visualizing some predictions
+# visualize_predictions(model=model, 
+#                       test_loader=test_loader, 
+#                       device=device, 
+#                       num_images=5)

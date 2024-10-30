@@ -1,8 +1,5 @@
-torch==2.0.0+cu118 -f https://download.pytorch.org/whl/cu118
-torchvision==0.15.0+cu118 -f https://download.pytorch.org/whl/cu118
+torch==2.5.0+cu118 --index-url https://download.pytorch.org/whl/cu118
+torchvision==0.20.0+cu118 --index-url https://download.pytorch.org/whl/cu118
 gdown
-Pillow
-tk
 matplotlib
 scikit-learn
-# torchaudio==2.0.0+cu118 -f https://download.pytorch.org/whl/cu118

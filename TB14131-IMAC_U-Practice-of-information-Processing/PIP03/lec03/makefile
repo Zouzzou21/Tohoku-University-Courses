@@ -5,7 +5,7 @@ FILE    =    # Set to your desired file name without extension
 
 default: build
 
-all: clean build execute clean
+all: build execute clean
 
 # Build the binary from the C source
 build: $(FILE).c
@@ -17,7 +17,7 @@ execute: $(FILE)
 
 # Clean the binary only if it exists
 clean:
-	-@$(RM) $(FILE) 2>/dev/null || echo "$(FILE) not found, nothing to clean."
+	-@$(RM) $(FILE)
 
 # Debug: Clean (if needed), compile with debugging symbols, and launch GDB
 debug: clean

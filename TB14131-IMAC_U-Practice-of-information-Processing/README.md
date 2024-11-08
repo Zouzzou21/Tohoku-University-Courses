@@ -68,3 +68,47 @@ In this session, we delved into more advanced C programming concepts and practic
 ### Mathematical Functions
 - **Functions:** Absolute value, trigonometric, exponential, and logarithmic functions.
 - **Casting:** Implicit and explicit type conversion in C.
+
+## [PIP05](PIP05/README.md)
+### Course Session Summary
+In this session, we reviewed previous exercises, explored functions in C programming, and engaged in practical coding tasks.
+#### Functions in C
+1. **Definition and Types**: Understanding functions, their types, and usage.
+2. **Function Prototypes**: Importance of prototypes to avoid compile errors.
+3. **Libraries**: Utilizing pre-compiled functions with `#include`.
+#### Practical Exercises
+1. **Bubble Sort Visualization**: Modify code to visualize sorting steps.
+2. **Array Manipulation**: Reverse arrays and implement selection sort.
+3. **Polynomial Approximation**: Implement and graph McLaughlin series expansions.
+#### Custom Functions
+1. **Syntax and Examples**: Writing functions for basic arithmetic operations.
+2. **Euclidean Algorithm**: Compute least common multiple using recursion.
+#### Scope and Variables
+1. **Global vs. Local**: Understanding variable scope and usage.
+#### Data Structures
+1. **Arrays and Structures**: Storing and manipulating data using arrays and structures.
+2. **Practical Exercise**: Calculate distances and manage data for multiple people.
+### Summary of Key Topics
+- Functions and their role in C programming.
+- Practical coding exercises to reinforce learning.
+- Understanding scope, data types, and structures.
+- Recursive functions and their applications.
+
+## [PIP06](PIP06/README.md)
+### Course Session Summary
+In this session, we explored pointers, memory addressing, function calls, and file input/output in C programming.
+#### Pointers and Memory Addressing
+- **Memory Addressing**: Differences between 32-bit and 64-bit OS.
+- **Pointers**: Usage of pointers to hold memory addresses and access variable values.
+#### Function Calls
+- **Call-by-Value**: Passing only the argument's value.
+- **Call-by-Reference**: Using pointers to modify variables outside the function scope.
+#### File Input/Output in C
+- **File Pointers**: Managing file operations.
+- **File Access Modes**: Different modes for reading, writing, and appending files.
+- **Functions**: Various functions for file I/O operations.
+- **Exercises**: Practical tasks for file handling and data manipulation.
+### Summary of Key Concepts
+- **Pointers and Memory**: Effective memory management using pointers.
+- **File I/O**: Essential functions for file operations.
+- **Next Lecture Topics**: Further exploration of pointers and final report preparation.

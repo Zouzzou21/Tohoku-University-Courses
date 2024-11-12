@@ -86,6 +86,7 @@ Class materials are uploaded to Google Classroom, and students will do programmi
 22. [Other Communication Patterns](hpc_03/README.md/#other-communication-patterns)
 23. [Summary](hpc_03/README.md/#summary)
 
+
 ## Class ([hpc_04](hpc_04/hpc_04.pdf))
 1. [Parallel Computers and Systems](hpc_04/README.md/#1-parallel-computers-and-systems)
 2. [Software and Resources](hpc_04/README.md/#2-software-and-resources)
@@ -102,3 +103,14 @@ Class materials are uploaded to Google Classroom, and students will do programmi
 13. [Sample Codes](hpc_04/README.md/#sample-codes)
     - [Minimal MPI Program](hpc_04/README.md/#minimal-mpi-program)
     - [Simple Parallel Reduction Code](hpc_04/README.md/#simple-parallel-reduction-code)
+
+
+## Class ([hpc_05](hpc_05/hpc_05.pdf))
+1. [Introduction to High-Performance Computing (HPC)](hpc_05/README.md#1-introduction-to-high-performance-computing-hpc)
+2. [Parallel Programming Fundamentals](hpc_05/README.md##2-parallel-programming-fundamentals)
+3. [Core Concepts in Parallel Processing with OpenMP](hpc_05/README.md##3-core-concepts-in-parallel-processing-with-openmp)
+4. [Data Management in OpenMP](hpc_05/README.md##4-data-management-in-openmp)
+5. [Task Parallelism](hpc_05/README.md##5-task-parallelism)
+6. [Heterogeneous Computing and Offloading](hpc_05/README.md##6-heterogeneous-computing-and-offloading)
+7. [Performance and Scalability Considerations](hpc_05/README.md##7-performance-and-scalability-considerations)
+8. [Optimization Techniques](hpc_05/README.md##8-optimization-techniques)

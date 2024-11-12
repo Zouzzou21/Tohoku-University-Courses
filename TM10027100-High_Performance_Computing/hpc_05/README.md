@@ -3,8 +3,17 @@
 Instructor: Hiroyuki Takizawa
 
 ---
-
 ## Table of Contents
+
+1. [Introduction to High-Performance Computing (HPC)](#1-introduction-to-high-performance-computing-hpc)
+2. [Parallel Programming Fundamentals](#2-parallel-programming-fundamentals)
+3. [Core Concepts in Parallel Processing with OpenMP](#3-core-concepts-in-parallel-processing-with-openmp)
+4. [Data Management in OpenMP](#4-data-management-in-openmp)
+5. [Task Parallelism](#5-task-parallelism)
+6. [Heterogeneous Computing and Offloading](#6-heterogeneous-computing-and-offloading)
+7. [Performance and Scalability Considerations](#7-performance-and-scalability-considerations)
+8. [Optimization Techniques](#8-optimization-techniques)
+
 
 
 ---
@@ -12,7 +21,8 @@ Instructor: Hiroyuki Takizawa
 ## 1. Introduction to High-Performance Computing (HPC)
    - **HPC Systems**: Use multiple processors to handle complex computations efficiently.
      - **Distributed-memory parallel computers**: Multiple interconnected computers, suitable for large-scale systems.
-     - **Shared-memory parallel computers**: Use symmetric multiprocessing (SMP) or multicore processors.
+     - **Shared-memory parallel computers**: Use symmetric multiprocessing (SMP) or multicore processors. \
+![Sharing Memory](image/Sharing_Memory.png)
    - **Large-Scale Systems**: Often a combination of distributed and shared-memory systems, sometimes incorporating GPUs or other accelerators.
 
 ---

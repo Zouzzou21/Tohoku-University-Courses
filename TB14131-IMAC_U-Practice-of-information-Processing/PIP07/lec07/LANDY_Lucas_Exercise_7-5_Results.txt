@@ -1,0 +1,89 @@
+./malloc_test
+Number of Data? 1
+Enter number 1 (array version): 5
+Enter number 1 (malloc version): 5
+5 5
+
+--- Memory usage ---
+Array: 40 [bytes]
+Malloc: 4 [bytes]
+
+./malloc_test
+Number of Data? 10
+Enter number 1 (array version): 0
+Enter number 2 (array version): 1
+Enter number 3 (array version): 2
+Enter number 4 (array version): 3
+Enter number 5 (array version): 4
+Enter number 6 (array version): 5
+Enter number 7 (array version): 6
+Enter number 8 (array version): 7
+Enter number 9 (array version): 8
+Enter number 10 (array version): 9
+Enter number 1 (malloc version): 0
+Enter number 2 (malloc version): 1
+Enter number 3 (malloc version): 2
+Enter number 4 (malloc version): 3
+Enter number 5 (malloc version): 4
+Enter number 6 (malloc version): 5
+Enter number 7 (malloc version): 6
+Enter number 8 (malloc version): 7
+Enter number 9 (malloc version): 8
+Enter number 10 (malloc version): 9
+0 0
+1 1
+2 2
+3 3
+4 4
+5 5
+6 6
+7 7
+8 8
+9 9
+
+--- Memory usage ---
+Array: 40 [bytes]
+Malloc: 40 [bytes]
+
+./malloc_test
+Number of Data? 15
+Enter number 1 (array version): 1
+Enter number 2 (array version): 2
+Enter number 3 (array version): 3
+Enter number 4 (array version): 4 
+Enter number 5 (array version): 5
+Enter number 6 (array version): 6
+Enter number 7 (array version): 7
+Enter number 8 (array version): 8
+Enter number 9 (array version): 9
+Enter number 10 (array version): 10
+Enter number 11 (array version): 11
+Enter number 12 (array version): 12
+Enter number 1 (malloc version): 1
+Enter number 2 (malloc version): 2
+Enter number 3 (malloc version): 3
+Enter number 4 (malloc version): 4
+Enter number 5 (malloc version): 5
+Enter number 6 (malloc version): 6
+Enter number 7 (malloc version): 7
+Enter number 8 (malloc version): 8
+Enter number 9 (malloc version): 9
+Enter number 10 (malloc version): 10
+Enter number 11 (malloc version): 11
+Enter number 12 (malloc version): 12
+1 1
+2 2
+3 3
+4 4
+5 5
+6 6
+7 7
+8 8
+9 9
+10 10
+11 11
+12 12
+
+--- Memory usage ---
+Array: 40 [bytes]
+Malloc: 48 [bytes]

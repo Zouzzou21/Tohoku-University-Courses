@@ -77,16 +77,33 @@ Choosen one:
 
 ---
 
-Execution code infos:
+### Execution code infos:
 ```bash
-pip install torch==2.5.0+cu118 torchvision==0.20.0+cu118 --index-url https://download.pytorch.org/whl/cu118
+pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
 pip install gdown matplotlib scikit-learn
 ```
-or
+or using requirements.txt:
 ```bash
-pip install torch==2.5.0+cu118 torchvision==0.20.0+cu118 --index-url https://download.pytorch.org/whl/cu118
+pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
 pip install -r requirements.txt
 ```
+
+Then execute the code:
+```sh
+python main.py
+```
+
+### ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+Image building:
+```sh
+docker build -t cuda-python-app .
+```
+
+Run container image:
+```sh
+docker run --gpus all -it --rm cuda-python-app
+```
+
 ---
 
 Model infos:

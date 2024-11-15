@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define NAME_LENGTH 15
+#define NAME_LENGTH 17
 #define DATA_LEN 100
 
 /* team score structure */

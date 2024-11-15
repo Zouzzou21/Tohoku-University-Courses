@@ -28,7 +28,7 @@ This assignment consists of two main programs: `J_score.c` and `bisection.c`. Ea
 
 # 1. Japanese Football League Ranking Program (`J_score.c`)
 ## Overview:
-`J_score.c` is a program that processes and ranks teams in the Japanese football league based on statistical data provided in `J_dataset.csv`. The program reads team statistics, calculates scores and goal differences, sorts the teams according to specified criteria, and outputs the ranking in `J_score.txt`.
+`J_score.c` and `J_score2.c` is a program that processes and ranks teams in the Japanese football league based on statistical data provided in `J_dataset.csv`. `J_score.c` is using the `J_score_template1.c` and `J_score.c` is using the `J_score_template2.c`. The program reads team statistics, calculates scores and goal differences, sorts the teams according to specified criteria, and outputs the ranking in `J_score.txt`.
 
 ## Specifications
 
@@ -56,26 +56,59 @@ This assignment consists of two main programs: `J_score.c` and `bisection.c`. Ea
    - The program dynamically counts the number of teams in the CSV and allocates memory accordingly, making it adaptable to any number of teams.
 
 2. **Functions**:
-   - `count_teams`: Counts rows in the CSV to determine the number of teams.
    - `read_data`: Reads and parses CSV data into an array of team structures.
    - `calc_score`: Computes win points and goal difference for each team.
    - `rank_score`: Sorts the teams using an efficient heap sort algorithm.
    - `write_data`: Outputs the sorted data to `J_score.txt` in a readable format.
+   - `swap_SC`: Function to swap two teams in the table array
+   - `count_teams`: Counts rows in the CSV to determine the number of teams.
+   - `heapify`: Heapifies a subtree rooted with node i in an array of SC structures, ensuring the max-heap property
 
 3. **Heap Sort for Efficient Ranking**:
-   - We use heap sort to rank teams based on the given criteria. Heap sort is efficient with \(O(n \log n)\) time complexity, which is suitable for handling larger data sets.
+   - We use heap sort to rank teams based on the given criteria. Heap sort is efficient with $O(n \log n)$ time complexity, which is suitable for handling larger data sets.
 
 ## How to Run
 
 1. **Compile**:
-   ```bash
+   ```sh
    gcc -o J_score J_score.c
+   ```
+   or
+   ```sh
+   gcc -o J_score2 J_score.c
+   ```
 2. **Execute**:
-```sh
-./J_score
-```
+   ```sh
+   ./J_score
+   ```
+   or
+   ```sh
+   ./J_score2
+   ```
 3. **Output**:
-The rankings are saved in J_score.txt in a table format.
+   The rankings are saved in [J_score.txt](J_score.txt) (or [J_score2.txt](J_score2.txt)) in a table format.
+   ```txt
+   Ranking   Team            Wins  Draws  Losses  GF    GA    Points  GD
+   --------------------------------------------------------------------
+   1         Yokohama FC         7     8    18    30    56      29   -26
+   2         Kashiwa Reysol      6    14    13    32    46      32   -14
+   3         Gamba Osaka         9     7    17    38    60      34   -22
+   4         Shonan Bellmare     8    10    15    40    55      34   -15
+   5         Kyoto Sanga FC     11     4    18    37    44      37    -7
+   6         Sagan Tosu          9    11    13    43    46      38    -3
+   7         FC Tokyo           11     7    15    41    46      40    -5
+   8         Consadole Sapporo    10    10    13    56    59      40    -3
+   9         Albirex Niigata    10    12    11    35    40      42    -5
+   10        Kawasaki Frontale    13     8    12    50    45      47     5
+   11        Cerezo Osaka       15     4    14    39    33      49     6
+   12        Kashima Antlers    13    10    10    41    33      49     8
+   13        Avispa Fukuoka     15     6    12    37    42      51    -5
+   14        Nagoya Grampus     14     9    10    40    35      51     5
+   15        Urawa Red Diamonds    14    12     7    40    27      54    13
+   16        Sanfrecce Hiroshima    16     7    10    41    28      55    13
+   17        Yokohama F. Marinos    19     7     7    62    37      64    25
+   18        Vissel Kobe        20     8     5    59    29      68    30
+   ```
 
 ## Conclusion
 
@@ -87,7 +120,7 @@ The `J_score.c` program efficiently ranks teams in the Japanese football league 
 
 ## Overview
 
-`bisection.c` is a program that finds the roots (zeros) of a continuous function using either the bisection method or Newton's method. It calculates the roots of the function \( f(x) = \frac{x}{12} + \sin(x) \) by iteratively halving the interval or using tangent slopes until the desired precision is reached.
+`bisection.c` is a program that finds the roots (zeros) of a continuous function using either the bisection method or Newton's method. It calculates the roots of the function $ f(x) = \frac{x}{12} + \sin(x) $ by iteratively halving the interval or using tangent slopes until the desired precision is reached.
 
 ## Specifications
 
@@ -95,16 +128,16 @@ The `J_score.c` program efficiently ranks teams in the Japanese football league 
    - The program divides an interval `[a, b]` into halves, evaluating the function at the midpoint `c = (a + b) / 2`.
    - If `f(a)` and `f(c)` have opposite signs, there is a root in `[a, c]`.
    - If `f(c)` and `f(b)` have opposite signs, there is a root in `[c, b]`.
-   - This process repeats until the error is smaller than \(10^{-8}\) or the maximum iteration limit is reached.
+   - This process repeats until the error is smaller than $10^{-8}$ or the maximum iteration limit is reached.
 
 2. **Newton’s Method (Optional)**:
    - Newton’s method is available as an alternative to bisection for faster convergence.
-   - Starting from an initial guess \( x_0 \), Newton’s method iteratively improves the guess based on the formula \( x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)} \).
-   - This method requires the derivative \( f'(x) = \frac{1}{12} + \cos(x) \).
+   - Starting from an initial guess $ x_0 $, Newton’s method iteratively improves the guess based on the formula $ x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)} $.
+   - This method requires the derivative $ f'(x) = \frac{1}{12} + \cos(x) $.
 
 3. **Function**:
-   - The function to be solved is \( f(x) = \frac{x}{12} + \sin(x) \).
-   - Both methods iterate until the error is below \(10^{-8}\) or the maximum iterations are exceeded.
+   - The function to be solved is $ f(x) = \frac{x}{12} + \sin(x) $.
+   - Both methods iterate until the error is below $10^{-8}$ or the maximum iterations are exceeded.
 
 ## Program Structure
 
@@ -120,7 +153,14 @@ The `J_score.c` program efficiently ranks teams in the Japanese football league 
    - Both the bisection and Newton’s method implementations include a counter for the number of iterations.
    - The number of iterations for each root is printed alongside the root value to provide insight into the method’s convergence efficiency.
 
-4. **Optional Enhancements**:
+4. **Functions**:
+   - `f`: Function to evaluate $f(x) = x/12 + sin(x)$.
+   - `f_prime`: Function to evaluate $f'(x)$ for Newton's method, derivative of $f(x)$.
+   - `bisection`: Recursive bisection method to find a root in [a, b] to specified tolerance.
+   - `newton_method`: Newton's method for finding a root near $x=0$.
+   - `find_all_roots`: Function to find all roots in the interval [start, end] using the bisection method.
+
+5. **Optional Enhancements**:
    - The program allows the user to choose between bisection and Newton’s method for finding roots.
    - If Newton’s method is chosen, it may fail to converge if the derivative is close to zero, in which case the program will alert the user.
 

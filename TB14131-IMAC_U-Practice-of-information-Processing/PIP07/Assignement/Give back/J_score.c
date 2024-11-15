@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define NAME_LENGTH 15
+#define NAME_LENGTH 17
 #define DATA_LEN 100
 
 /* team score structure */
@@ -19,12 +19,11 @@ struct team_score {
 typedef struct team_score SC; /* Alias "SC" for struct team_score */
 
 /* Function prototypes */
-int count_teams(FILE *fin);
 void read_data(FILE *fin, SC *table, int team_num);
 void calc_score(SC *team);
 void rank_score(SC *table, int team_num);
-void swap_SC(SC *team1, SC *team2);
 void write_data(FILE *fout, SC *table, int team_num);
+void swap_SC(SC *team1, SC *team2);
 int count_teams(FILE *fin);
 void heapify(SC *table, int team_num, int i);
 
@@ -82,7 +81,6 @@ int main(void) {
 }
 
 
-
 /* Function to read data from the CSV file into the table array */
 void read_data(FILE *fin, SC *table, int team_num) {
     char buff[DATA_LEN];
@@ -116,13 +114,6 @@ void rank_score(SC *table, int team_num) {
     }
 }
 
-/* Function to swap two teams in the table array */
-void swap_SC(SC *team1, SC *team2) {
-    SC temp = *team1;
-    *team1 = *team2;
-    *team2 = temp;
-}
-
 /* Function to write the sorted ranking to the output file */
 void write_data(FILE *fout, SC *table, int team_num) {
     fprintf(fout, "Ranking   Team            Wins  Draws  Losses  GF    GA    Points  GD\n");
@@ -132,6 +123,14 @@ void write_data(FILE *fout, SC *table, int team_num) {
                 i + 1, table[i].name, table[i].win, table[i].draw, table[i].loss,
                 table[i].GF, table[i].GA, table[i].score, table[i].point_diff);
     }
+}
+
+
+/* Function to swap two teams in the table array */
+void c(SC *team1, SC *team2) {
+    SC temp = *team1;
+    *team1 = *team2;
+    *team2 = temp;
 }
 
 /* Function to count the number of teams in the CSV file */
@@ -145,6 +144,8 @@ int count_teams(FILE *fin) {
     return count;
 }
 
+
+/* Heapifies a subtree rooted with node i in an array of SC structures, ensuring the max-heap property */
 void heapify(SC *table, int team_num, int i) {
     int largest = i;
     int left = 2 * i + 1;

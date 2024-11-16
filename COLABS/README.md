@@ -79,12 +79,12 @@ Choosen one:
 
 ### Execution code infos:
 ```bash
-pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
+pip install torch==2.5.1+cu118 torchvision==0.20.1+cu118 --index-url https://download.pytorch.org/whl/cu118
 pip install gdown matplotlib scikit-learn
 ```
 or using requirements.txt:
 ```bash
-pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
+pip install torch==2.5.1+cu118 torchvision==0.20.1+cu118 --index-url https://download.pytorch.org/whl/cu118
 pip install -r requirements.txt
 ```
 

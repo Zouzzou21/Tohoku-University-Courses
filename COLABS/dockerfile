@@ -24,7 +24,7 @@ COPY requirements.txt /app/requirements.txt
 RUN pip3 install --no-cache-dir -r requirements.txt
 
 # Install PyTorch and torchvision with CUDA 11.8 support
-RUN pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cu118
+RUN pip3 install torch==2.5.1+cu118 torchvision==0.20.1+cu118 --index-url https://download.pytorch.org/whl/cu118
 
 # Copy application code into the container
 COPY . /app

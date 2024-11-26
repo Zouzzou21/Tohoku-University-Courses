@@ -14,8 +14,6 @@ Instructor: Hiroyuki Takizawa
 7. [Performance and Scalability Considerations](#7-performance-and-scalability-considerations)
 8. [Optimization Techniques](#8-optimization-techniques)
 
-
-
 ---
 
 ## 1. Introduction to High-Performance Computing (HPC)

@@ -208,3 +208,8 @@ This example output shows multiple roots found within the interval and the itera
 
 ## Conclusion
 The bisection.c program offers flexible, robust root-finding capabilities using both the bisection and Newton’s methods. Its ability to find multiple roots in a specified range, along with the choice of algorithms, makes it adaptable for a wide range of functions and intervals.
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: {inlineMath: [['$', '$']]}, messageStyle: "none" });
+</script>

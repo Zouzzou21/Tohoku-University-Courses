@@ -189,3 +189,8 @@ Root 2 = -1.000000 - 2.000000i
 # Conclusion:
 The two programs demonstrate essential **programming concepts** like loops, conditional statements, mathematical calculations, and user input handling. Each program addresses a specific task, with room for further enhancements, such as **graphical visualization** and **data storage** for real-world use cases. \
 Both programs could benefit from further validation mechanisms and graphical tools to improve usability. However, they currently meet the requirements effectively, offering insight into **mathematical problem-solving** and **student performance evaluation**.
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: {inlineMath: [['$', '$']]}, messageStyle: "none" });
+</script>

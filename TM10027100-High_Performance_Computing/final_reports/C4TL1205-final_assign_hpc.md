@@ -4,9 +4,22 @@
 
 # Table of Contents
 - [1. program: ```mpi_round_trip.c```](#1-program-mpi_round_tripc)
-- [2. program: ```n-body.c``](#2-program-n-bodyc)
+	- [MPI Communication Performance Analysis](#mpi-communication-performance-analysis)
+	- [Makefile](#makefile)
+	- [Execution](#execution)
+	- [Outputs](#outputs)
+- [2. program: ```n-body.c```](#2-program-n-bodyc)
 	- [2-I. program: ```n-body.c```](#2-i-program-n-bodyc)
+		- [OpenMP Implementation in N-body Simulation](#openmp-implementation-in-n-body-simulation)
+		- [Makefile](#makefile-1)
+		- [Execution](#execution-1)
+		- [Results](#results)
 	- [2-II. program: ```n-body-mpi.c```](#2-ii-program-n-body-mpic)
+		- [MPI Implementation in N-Body Simulation](#mpi-implementation-in-n-body-simulation)
+		- [Makefile](#makefile-2)
+		- [Execution](#execution-2)
+		- [Results](#results-1)
+	- [Cleaning](#cleaning)
 - [3. Description of my research theme](#3-description-of-my-research-theme)
 	- [Graduate Research Theme](#graduate-research-theme)
 	- [Supercomputing Contributions to the Research](#supercomputing-contributions-to-the-research)
@@ -18,13 +31,52 @@
 
 ---
 
-# 1. program: [```mpi_round_trip.c```](code/mpi_round_trip.c)
+# 1. program: [```mpi_round_trip.c```](./code/mpi_round_trip.c)
+## MPI Communication Performance Analysis
 
+The MPI implementation in the project focuses on measuring two critical aspects of communication performance between processes: **latency** and **bandwidth**. These metrics are essential for understanding the efficiency of inter-process communication in distributed systems.
+
+### Objectives
+- **Latency**: Time taken for a message to travel from one process to another and back.
+- **Bandwidth**: Data transfer rate, measured as the amount of data communicated per second.
+
+### Code Design
+The program uses the MPI library for setting up and managing process communication. Key aspects of the implementation include:
+1. **Initialization**: The `MPI_Init` function initializes the MPI environment, and `MPI_Comm_rank` and `MPI_Comm_size` retrieve the process rank and the number of processes.
+2. **Communication Protocol**:
+   - **Process 0**: Initiates communication by sending data to **Process 1** and waits for the return message.
+   - **Process 1**: Receives the data, immediately echoes it back to **Process 0**.
+3. **Synchronization**: `MPI_Barrier` ensures all processes start the communication tests simultaneously.
+4. **Performance Measurement**:
+   - The round-trip time for the communication is recorded using the `clock_gettime` function.
+   - Calculations for latency and bandwidth are derived from the measured time and data size.
+
+### Metrics Computed
+1. **Latency**:
+   Latency is computed as half the round-trip time and expressed in microseconds: \
+   $
+   \text{Latency} = \frac{\text{Elapsed Time}}{2} \times 10^6 \; \mu s
+   $
+
+2. **Bandwidth**:
+   Bandwidth is computed as the data transferred in both directions divided by the elapsed time, expressed in MB/s: \
+   $
+   \text{Bandwidth} = \frac{2 \times \text{Data Size}}{\text{Elapsed Time} \times 10^6} \; \text{MB/s}
+   $
+
+### Scalability
+The test iterates over data sizes from 1 byte to 1 MB, doubling in each step. This approach demonstrates the impact of message size on latency and bandwidth, highlighting performance trends across different data volumes.
+
+### Limitations
+- The program assumes a homogeneous and reliable network environment.
+- Measurements could vary depending on system load and network conditions during execution.
+
+## Makefile 
 To compile this program using MPI, we need to use the compiler mpicc.
 To simplify the build and execution of the program, I created a Makefile with the following commands:
-- ```all-mpi-round-trip```: This make command is used to build the program and submit it to the queue using the [```run_mpi_round_trip.sh```](code/run_mpi_round_trip.sh) script.
-- ```build-mpi-round-trip```: This make command is used to compile the [```mpi_round_trip.c```](code/mpi_round_trip.c) source code into the ```mpi_round_trip``` executable file.
-- ```run-mpi-round-trip```: This make command is used to queue the [```run_mpi_round_trip.sh```](code/run_mpi_round_trip.sh) script for execution.
+- ```all-mpi-round-trip```: This make command is used to build the program and submit it to the queue using the [```run_mpi_round_trip.sh```](./code/run_mpi_round_trip.sh) script.
+- ```build-mpi-round-trip```: This make command is used to compile the [```mpi_round_trip.c```](./code/mpi_round_trip.c) source code into the ```mpi_round_trip``` executable file.
+- ```run-mpi-round-trip```: This make command is used to queue the [```run_mpi_round_trip.sh```](./code/run_mpi_round_trip.sh) script for execution.
 - ```clean-mpi-round-trip```: This make command is used to remove the ```mpi_round_trip``` execution file.
 
 ```makefile
@@ -41,7 +93,8 @@ clean-mpi-round-trip:
 	-@rm -f mpi_round_trip
 ```
 
-Below is the [```run_mpi_round_trip.sh```](code/run_mpi_round_trip.sh) script, which executes the ```mpi_round_trip``` file using 2 nodes with a time limit of 10 minutes and runs on the student queue. This script will generate two files: [```run_mpi_round_trip.sh.exxxxx```](outputs/run_mpi_round_trip.sh.e639599) and [```run_mpi_round_trip.sh.oxxxxx```](outputs/run_mpi_round_trip.sh.o639599). The **e** file contains error messages, while the **o** file contains the output of the [```run_mpi_round_trip.sh```](code/run_mpi_round_trip.sh) script.
+## Execution
+Below is the [```run_mpi_round_trip.sh```](./code/run_mpi_round_trip.sh) script, which executes the ```mpi_round_trip``` file using 2 nodes with a time limit of 10 minutes and runs on the student queue. This script will generate two files: [```run_mpi_round_trip.sh.exxxxx```](outputs/run_mpi_round_trip.sh.e639599) and [```run_mpi_round_trip.sh.oxxxxx```](outputs/run_mpi_round_trip.sh.o639599). The **e** file contains error messages, while the **o** file contains the output of the [```run_mpi_round_trip.sh```](./code/run_mpi_round_trip.sh) script.
 ```sh run_mpi_round_trip.sh
 #!/bin/sh -
 #PBS -q lx_edu
@@ -52,6 +105,7 @@ cd $PBS_O_WORKDIR
 time mpirun -np 2 ./mpi_round_trip
 ```
 
+## Outputs
 The output of the execution can be found in the file [```run_mpi_round_trip.sh.o639599```](outputs/run_mpi_round_trip.sh.o639599). In this file, we can observe the calculated latency and bandwidth for various data sizes.
 ```c output
 Data size: 1 bytes, Time: 0.000010 seconds, Latency: 4.82 microseconds, Bandwidth: 0.21 MB/s
@@ -84,7 +138,6 @@ user	0m0.140s
 sys	0m0.315s
 ```
 
-
 To illustrate the relationship between data size and communication time, I created the graph below:
 
 ![Relation_between_data_size_and_communication_time](image/chart.png)
@@ -98,15 +151,60 @@ Overall, the chart indicates that the system is optimized for small to medium-si
 
 ---
 
-# 2. program: [```n-body.c```](code/n-body.c)
-## 2-I. program: [```n-body.c```](code/n-body.c)
-To compile this program using OpenMP, we need to use the compiler mpicc.
+# 2. program: [```n-body.c```](./code/n-body.c)
+## 2-I. program: [```n-body.c```](./code/n-body.c)
+### **OpenMP Implementation in N-body Simulation**
+
+#### **Overview**
+The provided N-body simulation uses OpenMP to parallelize computationally intensive tasks. This parallelization aims to accelerate the simulation by utilizing multi-threading capabilities available in modern CPUs.
+
+#### **Parallelized Components**
+1. **Force Calculation (`computeAccelerations`)**:
+   - The most computationally expensive operation, involving $O(N^2)$ interactions between bodies.
+   - **Implementation**:
+     - OpenMP's `#pragma omp parallel for` with dynamic scheduling distributes iterations of the outer loop across threads.
+     - Variables like `i` and `j` are private, while shared variables include `positions`, `masses`, and `accelerations`.
+   - **Challenges**:
+     - Potential cache contention when multiple threads update shared memory regions.
+     - Load imbalance due to varying computational intensity in different iterations.
+
+2. **Velocity Updates (`computeVelocities`)**:
+   - Independently updates the velocity of each body based on current accelerations.
+   - **Implementation**:
+     - A simple `#pragma omp parallel for` directive efficiently parallelizes this loop.
+   - **Advantages**:
+     - Minimal thread communication as updates are independent.
+
+3. **Position Updates (`computePositions`)**:
+   - Updates positions based on current velocities and accelerations.
+   - **Implementation**:
+     - Uses a similar parallelization strategy as velocity updates, ensuring each thread processes a separate subset of bodies.
+
+4. **Collision Resolution (`resolveCollisions`)**:
+   - Detects and resolves collisions between body pairs.
+   - **Implementation**:
+     - Pairwise comparisons are parallelized with `#pragma omp parallel for`.
+   - **Considerations**:
+     - Careful indexing ensures thread safety and prevents accessing invalid memory locations.
+
+#### **Performance Benefits**
+- The use of OpenMP reduces execution time for key components, especially `computeAccelerations`, by parallelizing the computationally expensive loops.
+- The simplicity of OpenMP ensures minimal changes to the original serial implementation, maintaining code readability and ease of debugging.
+
+#### **Limitations and Future Work**
+- **Memory Bandwidth**: Shared memory usage can cause contention, reducing efficiency in multi-threaded execution.
+- **Scalability**: For larger numbers of bodies or steps, further optimizations like space partitioning or SIMD may be necessary.
+- **Load Balancing**: Dynamic scheduling helps balance workloads, but tuning scheduling parameters can yield better performance.
+
+
+### Makefile
+To compile this program using OpenMP, we need to use the compiler gcc with specific flag.
 To simplify the build and execution of the program, I created a Makefile with the following commands:
-- ```all-n-body```: This make command is used to build the program and submit it to the queue using the [```run_n-body.sh```](code/run_n-body.sh) script.
-- ```build-n-body```: This make command is used to compile the [```n-body.c```](code/n-body.c) source code into the ```n-body``` executable file. We use the ```-fopenmp``` flag to inform the GCC compiler that we need to use OpenMP features, and the ```-lm``` flag to link the ```math.h``` library functions.
-- ```run-n-body```: This make command is used to queue the [```run_n-body.sh```](code/run_n-body.sh) script for execution.
+- ```all-n-body```: This make command is used to build the program and submit it to the queue using the [```run_n-body.sh```](./code/run_n-body.sh) script.
+- ```build-n-body```: This make command is used to compile the [```n-body.c```](./code/n-body.c) source code into the ```n-body``` executable file. We use the ```-fopenmp``` flag to inform the GCC compiler that we need to use OpenMP features, and the ```-lm``` flag to link the ```math.h``` library functions.
+- ```run-n-body```: This make command is used to queue the [```run_n-body.sh```](./code/run_n-body.sh) script for execution.
 - ```clean-n-body```: This make command is used to remove the ```n-body``` and ```n-body-serial``` execution file.
-- ```n-body-serial```: This make command is used to compile and execute the [```n-body.c```](code/n-body.c) as a serial program.
+- ```n-body-serial```: This make command is used to compile and execute the [```n-body.c```](./code/n-body.c) as a serial program.
 
 ```makefile
 all-n-body: build-n-body run-n-body
@@ -127,7 +225,8 @@ n-body-serial:
 	qsub ./run_n-body-serial.sh
 ```
 
-Below is the [```run_n-body.sh```](code/run_n-body.sh) script, which executes the ```n-body``` file using 1, 2, 4, 8, 16 & 32 threads with a time limit of 10 minutes and runs on the student queue. This script will generate two files: [```run_n-body.sh.exxxxxx```](outputs/run_n-body.sh.e639605) and [```run_n-body.sh.oxxxxxx```](outputs/run_n-body.sh.o639605). The **e** file contains error messages, while the **o** file contains the output of the [```run_n-body.sh```](code/run_n-body.sh) script.
+### Execution
+Below is the [```run_n-body.sh```](./code/run_n-body.sh) script, which executes the ```n-body``` file using 1, 2, 4, 8, 16 & 32 threads with a time limit of 10 minutes and runs on the student queue. This script will generate two files: [```run_n-body.sh.exxxxxx```](outputs/run_n-body.sh.e639605) and [```run_n-body.sh.oxxxxxx```](outputs/run_n-body.sh.o639605). The **e** file contains error messages, while the **o** file contains the output of the [```run_n-body.sh```](./code/run_n-body.sh) script.
 
 ```sh run_n-body.sh
 #!/bin/sh -
@@ -143,7 +242,7 @@ for threads in 1 2 4 8 16 32; do
 done
 ```
 
-Below is the [```run_n-body-serial.sh```](code/run_n-body-serial.sh) script, which executes the ```n-body``` file with a time limit of 10 minutes and runs on the student queue in a serial manner. This script will generate two files: [```run_n-body-serial.sh.exxxxxx```](outputs/run_n-body-serial.sh.e639612) and [```run_n-body-serial.sh.oxxxxxx```](outputs/run_n-body-serial.sh.o639612). The **e** file contains error messages, while the **o** file contains the output of the [```run_n-body-serial.sh```](code/run_n-body-serial.sh) script.
+Below is the [```run_n-body-serial.sh```](./code/run_n-body-serial.sh) script, which executes the ```n-body``` file with a time limit of 10 minutes and runs on the student queue in a serial manner. This script will generate two files: [```run_n-body-serial.sh.exxxxxx```](outputs/run_n-body-serial.sh.e639612) and [```run_n-body-serial.sh.oxxxxxx```](outputs/run_n-body-serial.sh.o639612). The **e** file contains error messages, while the **o** file contains the output of the [```run_n-body-serial.sh```](./code/run_n-body-serial.sh) script.
 
 ```sh run_n-body-serial.sh
 #!/bin/sh -
@@ -156,30 +255,32 @@ cd "${PBS_O_WORKDIR}"
 time ./n-body-serial
 ```
 
+### Results
+
 To evaluate the performance of the program, I will calculate the **speedup** $S = \frac{T_{serial}}{T_{parrallel}}$ and **efficiency** $E = \frac{S}{P}$ ($P$ is the number of threads) represents the number of threads. These calculations will be performed for 1, 2, 4, 8, 16, and 32 threads to analyze how effectively the parallel implementation scales with increasing thread counts.
 
-For 1 threads: \
-$S = \frac{T_{serial}}{T_{parrallel}} = \frac{89,897}{89,281} = 1,006899564 \approx 1.00$ \
+For 1 thread: \
+$S = \frac{T_{serial}}{T_{parrallel}} = \frac{89.897}{89.281} = 1.006899564 \approx 1.00$ \
 $E = \frac{S}{P} = \frac{1}{1} = 1$
 
 For 2 threads: \
-$S = \frac{T_{serial}}{T_{parrallel}} = \frac{89,897}{83,625} = 1.075001495 \approx 1.08$ \
+$S = \frac{T_{serial}}{T_{parrallel}} = \frac{89.897}{83.625} = 1.075001495 \approx 1.08$ \
 $E = \frac{S}{P} = \frac{1.08}{2} = 0.54$
 
 For 4 threads: \
-$S = \frac{T_{serial}}{T_{parrallel}} = \frac{89,897}{73,753} = 1.218892791 \approx 1.22$ \
+$S = \frac{T_{serial}}{T_{parrallel}} = \frac{89.897}{73.753} = 1.218892791 \approx 1.22$ \
 $E = \frac{S}{P} = \frac{1.22}{4} = 0.305$
 
 For 8 threads: \
-$S = \frac{T_{serial}}{T_{parrallel}} = \frac{89,897}{44,181} = 2.034743442 \approx 2.03$ \
+$S = \frac{T_{serial}}{T_{parrallel}} = \frac{89.897}{44.181} = 2.034743442 \approx 2.03$ \
 $E = \frac{S}{P} = \frac{2.03}{8} = 0.25375$
 
 For 16 threads: \
-$S = \frac{T_{serial}}{T_{parrallel}} = \frac{89,897}{23,695} = 3.793922769 \approx 3.80$ \
+$S = \frac{T_{serial}}{T_{parrallel}} = \frac{89.897}{23.695} = 3.793922769 \approx 3.80$ \
 $E = \frac{S}{P} = \frac{3.80}{16} = 0.2375$
 
 For 32 threads: \
-$S = \frac{T_{serial}}{T_{parrallel}} = \frac{89,897}{12.099} = 7.430118192 \approx 7.43$ \
+$S = \frac{T_{serial}}{T_{parrallel}} = \frac{89.897}{12.099} = 7.430118192 \approx 7.43$ \
 $E = \frac{S}{P} = \frac{7.43}{32} = 0.2321875$
 
 Observations:
@@ -202,11 +303,58 @@ Efficiency (E):
 	- $E \approx 0.23$ for 32 threads.
 - The steady decline in Efficiency suggests that the program's scalability is limited by factors such as communication overhead, load imbalance, or non-parallelizable portions of the code.
 
-## 2-II. program: [```n-body-mpi.c```](code/n-body-mpi.c)
-```n-body-mpi.c``` \
-[run_n-body-mpi.sh.e639586](outputs/run_n-body-mpi.sh.e639586) \
-[run_n-body-mpi.sh.o639586](outputs/run_n-body-mpi.sh.o639586)
+## 2-II. program: [```n-body-mpi.c```](./code/n-body-mpi.c)
+### MPI Implementation in N-Body Simulation
 
+#### Role of MPI
+The implementation of MPI (Message Passing Interface) in the N-body simulation plays a crucial role in distributing computational tasks across multiple processes to enhance performance and scalability. The simulation leverages MPI to handle the intensive gravitational computations efficiently.
+
+#### Key Features of the MPI Integration
+
+1. **Data Distribution**:
+   - The bodies are divided among available processes. Each process is responsible for computing the accelerations for its designated subset of bodies.
+   - The range of indices is determined by the process rank (`rank`) and total number of processes (`num_procs`).
+
+2. **Parallel Computation**:
+   - The `computeAccelerations` function calculates the gravitational forces for a subset of bodies. Each process performs this calculation independently for its assigned range.
+   - The use of MPI allows simultaneous computations, significantly reducing the runtime for large simulations.
+
+3. **Data Synchronization**:
+   - After each process computes accelerations for its assigned bodies, updated position data is shared across all processes using `MPI_Allgather`.
+   - This ensures that all processes have access to the latest global positions for subsequent calculations.
+
+4. **Scalability**:
+   - The division of work scales with the number of processes. Larger process counts result in smaller computational loads per process, improving efficiency for high body counts.
+
+5. **Dynamic Load Handling**:
+   - The simulation dynamically adjusts the workload distribution based on the number of processes (`NUM_BODIES / num_procs`).
+
+#### MPI Functions Used
+- **MPI_Init**: Initializes the MPI environment.
+- **MPI_Comm_rank**: Retrieves the rank of the current process.
+- **MPI_Comm_size**: Determines the total number of processes.
+- **MPI_Allgather**: Gathers updated position data from all processes and redistributes it to ensure global consistency.
+- **MPI_Finalize**: Cleans up the MPI environment at the end of execution.
+
+#### Advantages of MPI in the Simulation
+- **Improved Performance**: Parallel processing reduces the time required to calculate interactions among a large number of bodies.
+- **Flexibility**: The simulation can run on varying numbers of processes, making it adaptable to different computational environments.
+- **Ease of Integration**: MPI's straightforward interface ensures that communication and synchronization are easily managed.
+
+#### Challenges
+- **Communication Overhead**: Frequent calls to `MPI_Allgather` can become a bottleneck if the number of processes or bodies increases significantly.
+- **Load Balancing**: Ensuring an even distribution of work among processes can be challenging if `NUM_BODIES` is not evenly divisible by `num_procs`.
+
+#### Conclusion
+The integration of MPI significantly enhances the efficiency of the N-body simulation, making it a robust solution for large-scale gravitational calculations. Proper optimization of communication and load distribution is key to achieving maximum performance gains.
+
+### Makefile
+To compile this program using MPI, we need to use the compiler mpicc.
+To simplify the build and execution of the program, I created a Makefile with the following commands:
+- ```all-n-body-mpi```: This make command is used to build the program and submit it to the queue using the [```run_n-body-mpi.sh```](./code/run_n-body-mpi.sh) script.
+- ```build-n-body-mpi```: This make command is used to compile the [```n-body-mpi.c```](./code/n-body-mpi.c) source code into the ```n-body-mpi``` executable file.
+- ```run-n-body-mpi```: This make command is used to queue the [```run_n-body-mpi.sh```](./code/run_n-body-mpi.sh) script for execution.
+- ```clean-n-body-mpi```: This make command is used to remove the ```n-body-mpi``` execution file.
 ```makefile
 all-n-body-mpi: build-n-body-mpi run-n-body-mpi
 
@@ -221,6 +369,8 @@ clean-n-body-mpi:
 	-@rm -f n-body-mpi
 ```
 
+### Execution
+Below is the [```run_n-body-mpi.sh```](./code/run_n-body-mpi.sh) script, which executes the ```n-body-mpi``` file using 1, 2, 4, 8, 16, 32 nodes with a time limit of 10 minutes and runs on the student queue. This script will generate two files: [```run_n-body-mpi.sh.exxxxx```](outputs/run_n-body-mpi.sh.e639599) and [```run_n-body-mpi.sh.oxxxxx```](outputs/run_n-body-mpi.sh.o639599). The **e** file contains error messages, while the **o** file contains the output of the [```run_n-body-mpi.sh```](./code/run_n-body-mpi.sh) script.
 ```sh run_n-body-mpi.sh
 #!/bin/sh -
 #PBS -q lx_edu
@@ -234,12 +384,64 @@ for processes in 1 2 4 8 16 32; do
 done
 ```
 
-Speedup $S = \frac{T_{serial}}{T_{parrallel}}$ \
-Efficiency $E = \frac{S}{P}$ \
-$P$ is the number of threads 
+### Results
+For 1 node: \
+$S = \frac{T_{serial}}{T_{parrallel}} = \frac{89.897}{53.971} = 1.665653777 \approx 1.67$ \
+$E = \frac{S}{P} = \frac{1.67}{1} = 1.67$
+
+For 2 nodes: \
+$S = \frac{T_{serial}}{T_{parrallel}} = \frac{89.897}{26.751} = 3.360509887 \approx 3.36$ \
+$E = \frac{S}{P} = \frac{3.36}{2} = 1.68$
+
+For 4 nodes: \
+$S = \frac{T_{serial}}{T_{parrallel}} = \frac{89.897}{13.626} = 6.597460737 \approx 6.60$ \
+$E = \frac{S}{P} = \frac{6.60}{4} = 1.65$
+
+For 8 nodes: \
+$S = \frac{T_{serial}}{T_{parrallel}} = \frac{89.897}{7.236} = 12.42357656 \approx 12.42$ \
+$E = \frac{S}{P} = \frac{12.42}{8} = 1.55$
+
+For 16 nodes: \
+$S = \frac{T_{serial}}{T_{parrallel}} = \frac{89.897}{4.050} = 22.19679012 \approx 22.20$ \
+$E = \frac{S}{P} = \frac{22.20}{16} = 1.38$
+
+For 32 nodes: \
+$S = \frac{T_{serial}}{T_{parrallel}} = \frac{89.897}{2.665} = 33.73245779 \approx 33.73$ \
+$E = \frac{S}{P} = \frac{33.73}{32} = 1.05$
+
+Observation:
+
+Speedup (S):
+- The **Speedup (S)** increases as the number of nodes increases, demonstrating the benefit of parallelization. However, the increase in Speedup is not perfectly proportional to the number of nodes due to overheads and the serial fraction of the computation.
+- For **1 node**, the Speedup is $S = 1.67$, which is greater than 1, showing that parallelization provides an advantage even with a single node.
+- For **2 nodes**, the Speedup is $S \approx 3.36$, nearly double that of 1 node, indicating efficient scaling at this level.
+- For **4 nodes**, the Speedup reaches $S \approx 6.60$, showing continued improvement but with diminishing returns relative to the increase in nodes.
+- For **8 nodes**, the Speedup is $S \approx 12.42$, still scaling but less than ideal linear scaling due to overheads.
+- For **16 nodes**, the Speedup is $S \approx 22.20$, indicating further diminishing returns as overheads and non-parallelizable components grow.
+- For **32 nodes**, the Speedup is $S \approx 33.73$, which is far below the theoretical maximum of 32, suggesting the impact of bottlenecks and inefficiencies.
+
+Efficiency (E):
+- The **Efficiency (E)** decreases as the number of nodes increases, which is expected as parallelization incurs overheads such as communication, synchronization, and load imbalance.
+- For **1 node**, Efficiency is $E = 1.67$, which is unexpectedly high (superlinear speedup). This could result from cache benefits or other hardware optimizations.
+- For **2 nodes**, Efficiency remains $E \approx 1.68$, slightly higher than expected, showing minimal overhead at this scale.
+- For **4 nodes**, Efficiency drops slightly to $E \approx 1.65$, still demonstrating good scaling performance.
+- For **8 nodes**, Efficiency decreases to $E \approx 1.55$, suggesting the start of noticeable parallel overheads.
+- For **16 nodes**, Efficiency drops further to $E \approx 1.38$, indicating that inefficiencies are becoming more pronounced.
+- For **32 nodes**, Efficiency declines significantly to $E \approx 1.05$, close to the point where adding more nodes offers little to no additional benefit due to overheads.
+
+- The Speedup shows strong performance for small node counts but experiences diminishing returns as the number of nodes increases, consistent with the effects of Amdahl's Law.
+- The Efficiency trends highlight excellent scaling up to 4 or 8 nodes, but significant overheads appear at higher node counts.
+- The superlinear efficiency for 1 and 2 nodes is notable and suggests that the problem benefits from additional factors, such as better memory usage or reduced contention, in the parallel implementation.
+- Beyond 16 nodes, the system encounters scalability challenges, likely due to increased communication overhead, load imbalance, or the serial fraction of the workload becoming a bottleneck.
+
+- Investigate the source of overheads and inefficiencies at higher node counts, particularly focusing on communication and synchronization costs.
+- Optimize the workload distribution to minimize load imbalance and resource contention.
+- Explore further algorithmic optimizations to reduce the serial fraction of the computation, which limits scalability as node count increases.
 
 
-Is used to clean all executable file
+## Cleaning
+To simplify the clean of the program outputs files, I created a Makefile with the following command:
+- ```clean-all```: This make command is used to remove the ```*.sh.exxxxxx``` and ```*.sh.oxxxxxx``` outputs qsub files.
 ```makefile
 clean-all: clean-mpi-round-trip clean-n-body clean-n-body-mpi
 	-@rm -f run_mpi_round_trip.sh.*

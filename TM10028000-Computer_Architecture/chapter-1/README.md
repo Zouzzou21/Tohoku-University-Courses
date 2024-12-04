@@ -160,3 +160,24 @@ Microarchitecture Design= Data Path & Control Units Design
 - On-chip cache and TLB
 - Speculation and Branch Prediction
 
+Intel’s TICK-TOCK Strategy, and Then Process-Architecture-Optimization Strategy
+
+Requirements in Designing a New Computer
+- Design a computer to meet functional requirements as well as price, power, performance, and availability goals.
+- Market (applications), and technology decide the requirements.
+- Although technology improves continuously, the impact of these improvements can be in discrete leaps.
+
+Tracking Technology Performance Trends
+- Drill down into 4 technologies:
+    - Disks, 
+    - Memory, 
+    - Network, 
+    - Processors
+- Compare ~1980 Archaic (Nostalgic) vs. ~2010 Modern (Newfangled)
+    - Performance Milestones in each technology
+- Compare for Bandwidth vs. Latency improvements in performance over time
+- **Bandwidth**,**Throughput**: number of events per unit time
+    - E.g., MIPS (million instructions/second), M bits / second over network, M bytes / second from disk
+- **Latency**: elapsed time for a single event
+    - E.g., one-way network delay in microseconds, average disk access time in milliseconds
+

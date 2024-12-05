@@ -55,13 +55,13 @@ The program uses the MPI library for setting up and managing process communicati
 1. **Latency**:
    Latency is computed as half the round-trip time and expressed in microseconds: \
    $
-   \text{Latency} = \frac{\text{Elapsed Time}}{2} \times 10^6 \; \mu s
+   \text{Latency} = \frac{\text{Elapsed Time}}{2} \times 10^6  \mu s
    $
 
 2. **Bandwidth**:
    Bandwidth is computed as the data transferred in both directions divided by the elapsed time, expressed in MB/s: \
    $
-   \text{Bandwidth} = \frac{2 \times \text{Data Size}}{\text{Elapsed Time} \times 10^6} \; \text{MB/s}
+   \text{Bandwidth} = \frac{2 \times \text{Data Size}}{\text{Elapsed Time} \times 10^6} \text{MB/s}
    $
 
 ### Scalability
@@ -72,7 +72,7 @@ The test iterates over data sizes from 1 byte to 1 MB, doubling in each step. Th
 - Measurements could vary depending on system load and network conditions during execution.
 
 ## Makefile 
-To compile this program using MPI, we need to use the compiler mpicc.
+To compile this program using MPI, we need to use the compiler ```MPICC```.
 To simplify the build and execution of the program, I created a Makefile with the following commands:
 - ```all-mpi-round-trip```: This make command is used to build the program and submit it to the queue using the [```run_mpi_round_trip.sh```](./code/run_mpi_round_trip.sh) script.
 - ```build-mpi-round-trip```: This make command is used to compile the [```mpi_round_trip.c```](./code/mpi_round_trip.c) source code into the ```mpi_round_trip``` executable file.
@@ -156,7 +156,7 @@ Overall, the chart indicates that the system is optimized for small to medium-si
 ### **OpenMP Implementation in N-body Simulation**
 
 #### **Overview**
-The provided N-body simulation uses OpenMP to parallelize computationally intensive tasks. This parallelization aims to accelerate the simulation by utilizing multi-threading capabilities available in modern CPUs.
+The N-body simulation uses OpenMP to parallelize computationally intensive tasks. This parallelization aims to accelerate the simulation by utilizing multi-threading capabilities available in modern CPUs.
 
 #### **Parallelized Components**
 1. **Force Calculation (`computeAccelerations`)**:
@@ -191,17 +191,11 @@ The provided N-body simulation uses OpenMP to parallelize computationally intens
 - The use of OpenMP reduces execution time for key components, especially `computeAccelerations`, by parallelizing the computationally expensive loops.
 - The simplicity of OpenMP ensures minimal changes to the original serial implementation, maintaining code readability and ease of debugging.
 
-#### **Limitations and Future Work**
-- **Memory Bandwidth**: Shared memory usage can cause contention, reducing efficiency in multi-threaded execution.
-- **Scalability**: For larger numbers of bodies or steps, further optimizations like space partitioning or SIMD may be necessary.
-- **Load Balancing**: Dynamic scheduling helps balance workloads, but tuning scheduling parameters can yield better performance.
-
-
 ### Makefile
-To compile this program using OpenMP, we need to use the compiler gcc with specific flag.
+To compile this program using OpenMP, we need to use the compiler ```GCC``` with specific flag.
 To simplify the build and execution of the program, I created a Makefile with the following commands:
 - ```all-n-body```: This make command is used to build the program and submit it to the queue using the [```run_n-body.sh```](./code/run_n-body.sh) script.
-- ```build-n-body```: This make command is used to compile the [```n-body.c```](./code/n-body.c) source code into the ```n-body``` executable file. We use the ```-fopenmp``` flag to inform the GCC compiler that we need to use OpenMP features, and the ```-lm``` flag to link the ```math.h``` library functions.
+- ```build-n-body```: This make command is used to compile the [```n-body.c```](./code/n-body.c) source code into the ```n-body``` executable file. We use the ```-fopenmp``` flag to inform the ```GCC``` compiler that we need to use OpenMP features, and the ```-lm``` flag to link the ```math.h``` library functions.
 - ```run-n-body```: This make command is used to queue the [```run_n-body.sh```](./code/run_n-body.sh) script for execution.
 - ```clean-n-body```: This make command is used to remove the ```n-body``` and ```n-body-serial``` execution file.
 - ```n-body-serial```: This make command is used to compile and execute the [```n-body.c```](./code/n-body.c) as a serial program.
@@ -286,28 +280,28 @@ $E = \frac{S}{P} = \frac{7.43}{32} = 0.2321875$
 Observations:
 
 Speedup (S):
-- The Speedup increases as the number of threads increases, demonstrating that the parallel implementation is faster than the serial implementation.
-- For **1 thread**, the Speedup is 1, as expected, since no parallelism is applied.
-- For **2 threads**, the Speedup is $S \approx 1.08$, indicating marginal improvement due to the addition of parallel threads.
-- The Speedup improves consistently for 4, 8, and 16 threads, reaching $S \approx 3.80$ for 16 threads. However, the growth rate slows down with more threads, indicating diminishing returns.
-- For 32 threads, the Speedup reaches $S \approx 7.43$, but it is far from the theoretical maximum of 32, suggesting overheads or bottlenecks.
+- The speedup increases as the number of threads increases, demonstrating that the parallel implementation is faster than the serial implementation.
+- For **1 thread**, the speedup is 1, as expected, since no parallelism is applied.
+- For **2 threads**, the speedup is $S \approx 1.08$, indicating marginal improvement due to the addition of parallel threads.
+- The speedup improves consistently for 4, 8, and 16 threads, reaching $S \approx 3.80$ for 16 threads. However, the growth rate slows down with more threads, indicating diminishing returns.
+- For 32 threads, the speedup reaches $S \approx 7.43$, but it is far from the theoretical maximum of 32, suggesting overheads or bottlenecks.
 
 Efficiency (E):
 - Efficiency decreases as the number of threads increases, highlighting the overhead and imperfect scaling of the parallel implementation.
-- For 1 thread, Efficiency is 1.00, as there is no parallel overhead.
-- For 2 threads, Efficiency drops to $ E \approx 0.54 $, indicating that nearly half of the theoretical speedup is achieved.
-- As the number of threads increases, Efficiency continues to decline:
+- For 1 thread, efficiency is 1.00, as there is no parallel overhead.
+- For 2 threads, efficiency drops to $ E \approx 0.54 $, indicating that nearly half of the theoretical speedup is achieved.
+- As the number of threads increases, efficiency continues to decline:
 	- $E \approx 0.31$ for 4 threads,
 	- $E \approx 0.25$ for 8 threads,
 	- $E \approx 0.24$ for 16 threads,
 	- $E \approx 0.23$ for 32 threads.
-- The steady decline in Efficiency suggests that the program's scalability is limited by factors such as communication overhead, load imbalance, or non-parallelizable portions of the code.
+- The steady decline in efficiency suggests that the program's scalability is limited by factors such as communication overhead, load imbalance, or non-parallelizable portions of the code.
 
 ## 2-II. program: [```n-body-mpi.c```](./code/n-body-mpi.c)
 ### MPI Implementation in N-Body Simulation
 
 #### Role of MPI
-The implementation of MPI (Message Passing Interface) in the N-body simulation plays a crucial role in distributing computational tasks across multiple processes to enhance performance and scalability. The simulation leverages MPI to handle the intensive gravitational computations efficiently.
+The implementation of MPI in the N-body simulation plays a crucial role in distributing computational tasks across multiple processes to enhance performance and scalability. The simulation leverages MPI to handle the intensive gravitational computations efficiently.
 
 #### Key Features of the MPI Integration
 
@@ -330,11 +324,11 @@ The implementation of MPI (Message Passing Interface) in the N-body simulation p
    - The simulation dynamically adjusts the workload distribution based on the number of processes (`NUM_BODIES / num_procs`).
 
 #### MPI Functions Used
-- **MPI_Init**: Initializes the MPI environment.
-- **MPI_Comm_rank**: Retrieves the rank of the current process.
-- **MPI_Comm_size**: Determines the total number of processes.
-- **MPI_Allgather**: Gathers updated position data from all processes and redistributes it to ensure global consistency.
-- **MPI_Finalize**: Cleans up the MPI environment at the end of execution.
+- **```MPI_Init```**: Initializes the MPI environment.
+- **```MPI_Comm_rank```**: Retrieves the rank of the current process.
+- **```MPI_Comm_size```**: Determines the total number of processes.
+- **```MPI_Allgather```**: Gathers updated position data from all processes and redistributes it to ensure global consistency.
+- **```MPI_Finalize```**: Cleans up the MPI environment at the end of execution.
 
 #### Advantages of MPI in the Simulation
 - **Improved Performance**: Parallel processing reduces the time required to calculate interactions among a large number of bodies.
@@ -345,11 +339,8 @@ The implementation of MPI (Message Passing Interface) in the N-body simulation p
 - **Communication Overhead**: Frequent calls to `MPI_Allgather` can become a bottleneck if the number of processes or bodies increases significantly.
 - **Load Balancing**: Ensuring an even distribution of work among processes can be challenging if `NUM_BODIES` is not evenly divisible by `num_procs`.
 
-#### Conclusion
-The integration of MPI significantly enhances the efficiency of the N-body simulation, making it a robust solution for large-scale gravitational calculations. Proper optimization of communication and load distribution is key to achieving maximum performance gains.
-
 ### Makefile
-To compile this program using MPI, we need to use the compiler mpicc.
+To compile this program using MPI, we need to use the compiler ```MPICC```.
 To simplify the build and execution of the program, I created a Makefile with the following commands:
 - ```all-n-body-mpi```: This make command is used to build the program and submit it to the queue using the [```run_n-body-mpi.sh```](./code/run_n-body-mpi.sh) script.
 - ```build-n-body-mpi```: This make command is used to compile the [```n-body-mpi.c```](./code/n-body-mpi.c) source code into the ```n-body-mpi``` executable file.
@@ -409,31 +400,31 @@ For 32 nodes: \
 $S = \frac{T_{serial}}{T_{parrallel}} = \frac{89.897}{2.665} = 33.73245779 \approx 33.73$ \
 $E = \frac{S}{P} = \frac{33.73}{32} = 1.05$
 
-Observation:
+Observations:
 
 Speedup (S):
-- The **Speedup (S)** increases as the number of nodes increases, demonstrating the benefit of parallelization. However, the increase in Speedup is not perfectly proportional to the number of nodes due to overheads and the serial fraction of the computation.
-- For **1 node**, the Speedup is $S = 1.67$, which is greater than 1, showing that parallelization provides an advantage even with a single node.
-- For **2 nodes**, the Speedup is $S \approx 3.36$, nearly double that of 1 node, indicating efficient scaling at this level.
-- For **4 nodes**, the Speedup reaches $S \approx 6.60$, showing continued improvement but with diminishing returns relative to the increase in nodes.
-- For **8 nodes**, the Speedup is $S \approx 12.42$, still scaling but less than ideal linear scaling due to overheads.
-- For **16 nodes**, the Speedup is $S \approx 22.20$, indicating further diminishing returns as overheads and non-parallelizable components grow.
-- For **32 nodes**, the Speedup is $S \approx 33.73$, which is far below the theoretical maximum of 32, suggesting the impact of bottlenecks and inefficiencies.
+- The **speedup (S)** increases as the number of nodes increases, demonstrating the benefit of parallelization. However, the increase in speedup is not perfectly proportional to the number of nodes due to overheads and the serial fraction of the computation.
+- For **1 node**, the speedup is $S = 1.67$, which is greater than 1, showing that parallelization provides an advantage even with a single node.
+- For **2 nodes**, the speedup is $S \approx 3.36$, nearly double that of 1 node, indicating efficient scaling at this level.
+- For **4 nodes**, the speedup reaches $S \approx 6.60$, showing continued improvement but with diminishing returns relative to the increase in nodes.
+- For **8 nodes**, the speedup is $S \approx 12.42$, still scaling but less than ideal linear scaling due to overheads.
+- For **16 nodes**, the speedup is $S \approx 22.20$, indicating further diminishing returns as overheads and non-parallelizable components grow.
+- For **32 nodes**, the speedup is $S \approx 33.73$, which is far below the theoretical maximum of 32, suggesting the impact of bottlenecks and inefficiencies.
 
 Efficiency (E):
 - The **Efficiency (E)** decreases as the number of nodes increases, which is expected as parallelization incurs overheads such as communication, synchronization, and load imbalance.
-- For **1 node**, Efficiency is $E = 1.67$, which is unexpectedly high (superlinear speedup). This could result from cache benefits or other hardware optimizations.
-- For **2 nodes**, Efficiency remains $E \approx 1.68$, slightly higher than expected, showing minimal overhead at this scale.
-- For **4 nodes**, Efficiency drops slightly to $E \approx 1.65$, still demonstrating good scaling performance.
-- For **8 nodes**, Efficiency decreases to $E \approx 1.55$, suggesting the start of noticeable parallel overheads.
-- For **16 nodes**, Efficiency drops further to $E \approx 1.38$, indicating that inefficiencies are becoming more pronounced.
-- For **32 nodes**, Efficiency declines significantly to $E \approx 1.05$, close to the point where adding more nodes offers little to no additional benefit due to overheads.
+- For **1 node**, efficiency is $E = 1.67$, which is unexpectedly high (superlinear speedup). This could result from cache benefits or other hardware optimizations.
+- For **2 nodes**, efficiency remains $E \approx 1.68$, slightly higher than expected, showing minimal overhead at this scale.
+- For **4 nodes**, efficiency drops slightly to $E \approx 1.65$, still demonstrating good scaling performance.
+- For **8 nodes**, efficiency decreases to $E \approx 1.55$, suggesting the start of noticeable parallel overheads.
+- For **16 nodes**, efficiency drops further to $E \approx 1.38$, indicating that inefficiencies are becoming more pronounced.
+- For **32 nodes**, efficiency declines significantly to $E \approx 1.05$, close to the point where adding more nodes offers little to no additional benefit due to overheads.
 
-- The Speedup shows strong performance for small node counts but experiences diminishing returns as the number of nodes increases, consistent with the effects of Amdahl's Law.
-- The Efficiency trends highlight excellent scaling up to 4 or 8 nodes, but significant overheads appear at higher node counts.
+Conclusion:
+- The speedup shows strong performance for small node counts but experiences diminishing returns as the number of nodes increases, consistent with the effects of Amdahl's Law.
+- The efficiency trends highlight excellent scaling up to 4 or 8 nodes, but significant overheads appear at higher node counts.
 - The superlinear efficiency for 1 and 2 nodes is notable and suggests that the problem benefits from additional factors, such as better memory usage or reduced contention, in the parallel implementation.
 - Beyond 16 nodes, the system encounters scalability challenges, likely due to increased communication overhead, load imbalance, or the serial fraction of the workload becoming a bottleneck.
-
 - Investigate the source of overheads and inefficiencies at higher node counts, particularly focusing on communication and synchronization costs.
 - Optimize the workload distribution to minimize load imbalance and resource contention.
 - Explore further algorithmic optimizations to reduce the serial fraction of the computation, which limits scalability as node count increases.

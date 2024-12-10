@@ -15,7 +15,12 @@
 ---
 
 ## Table of Contents
-
+- Introduction
+- Classes of Computers
+- Defining Computer Architecture
+- Trends in Technology
+- Measuring, Reporting, and Summarizing Performance
+- 5 Quantitative Principles of Computer Design
 
 ---
 
@@ -32,12 +37,12 @@ What is a computer?
 
 ![Basic_Structure_of_Computer-Von-Neumann_Model.png](image/Basic_Structure_of_Computer-Von-Neumann_Model.png)
 
-(Yellow arrow) Control flow = is use for control the calculator flow
+(Yellow arrow) Control flow = is use for control the calculator flow \
 (Red arrow) Data flow = is use to transfert the data to calculate
 
-Moore's law = Cqlculations per second per constant dollar by year increase du to the number of transistor in a CPU increase due to the process of miniaturisation of them.
+Moore's law = Calculations per second per constant dollar by year increase du to the number of transistor in a CPU increase due to the process of miniaturisation of them.
 
-The Law of Accelerating Returns
+The Law of Accelerating Returns:
 ```mermaid
 graph LR
     A[Technology Advances] --> B[More New Users Adopt]
@@ -64,15 +69,16 @@ Changes in computer systems
 Class of Parallelism and Parallel Architectures
 - Two parallelism in applications
     - Data-Level Parallelism (DLP)
-    - Parallelism exploited in many data items that can be operated on at the same time
-- Task-Level Parallelism (TLP)
-    - Parallelism exploited in tasks of work that can operate independently and largely in parallel
-- Pipelining and Superscalar use Instruction-Level Parallelism
-- SIMD/Vector Processing/GPU use data level parallelism with a single instruction for a collection of data in parallel.
-- Multicore processors/ parallel processors use Thread-Level. Parallelism created by using data-level parallelism or task-level parallelism
-- Request-Level Parallelism exploits parallelism among largely decoupled tasks specified by the programmer or the operating system
+        - Parallelism exploited in many data items that can be operated on at the same time
+    - Task-Level Parallelism (TLP)
+        - Parallelism exploited in tasks of work that can operate independently and largely in parallel
+- Computer hardware can use these two kinds of applications parallelism  in four major way.
+    - Pipelining and Superscalar use Instruction-Level Parallelism
+    - SIMD/Vector Processing/GPU use data level parallelism with a single instruction for a collection of data in parallel.
+    - Multicore processors/ parallel processors use Thread-Level. Parallelism created by using data-level parallelism or task-level parallelism
+    - Request-Level Parallelism exploits parallelism among largely decoupled tasks specified by the programmer or the operating system
 
-
+Flynn’s Classification (1966): 
 |                     | **Data Streams**           |                      |
 |---------------------|----------------------------|----------------------|
 | **Instruction Streams** | **Single**               | **Multiple**         |
@@ -80,7 +86,7 @@ Class of Parallelism and Parallel Architectures
 | **Multiple**        | **MISD:** No examples today | **MIMD:** Multicore Core i7 |
 
 
-SPMD: Single Program Multiple Data
+**SPMD (Single Program Multiple Data)**:
 - Parallel program on a MIMD computer
 - Conditional code for different processors
 
@@ -181,3 +187,103 @@ Tracking Technology Performance Trends
 - **Latency**: elapsed time for a single event
     - E.g., one-way network delay in microseconds, average disk access time in milliseconds
 
+** /!\ PAS FINI /!\ **
+
+## Define and Quantity Dependability
+- How decide when a system is operating properly?
+- Infrastructure providers now offer Service Level Agreements (SLA) to guarantee that their networking or power service would be dependable.
+- Systems alternate between 2 states of service with respect to an SLA:
+    1. **Service accomplishment**, when the service is delivered as specified in SLA.
+    2. **Service interruption**, where the delivered service is different from the SLA.
+- **Failure** = transition from state 1 to state 2
+- **Restoration** = transition from state 2 to state 1
+- Module reliability = measure of continuous service accomplishment (or time to failure).
+    1. **Mean Time To Failure** (MTTF) measures reliability
+    2. **Failures In Time** (FIT) = 1/MTTF, the rate of failures
+        - Traditionally reported as failures per billion hours of operation
+- **Mean Time To Repair** (MTTR) measures Service Interruption
+- **Mean Time Between Failures** $(MTBF) = MTTF+MTTR$
+- **Module availability** measures service as alternation between the 2 states of accomplishment and interruption (number between 0 and 1, e.g. 0.9)
+- **Module availability**: $\frac{MTTF}{MTTF+MTTR}$ $MTBF=MTTR+MTTF$ (exemple slides 64)
+
+## Definition of Performance
+- Performance is in units of things per sec (bigger is better)
+$performance(x) = \frac{1}{execution_times(x)}$
+"X is n times fatser than Y" means : $n = \frac{Performance(X)}{Performance(Y)} = \frac{Execution_time(Y)}{Execution_time(X)}$
+
+- Usually rely on benchmarks vs. real workloads
+- To increase predictability, collections of benchmark applications, called  benchmark suites, are popular
+- **SPECCPU**: popular desktop benchmark suite
+    - CPU only, split between integer and floating point programs
+    - SPECint2000 has 12 integer prgms, SPECfp2000 has 14 floating point pgms
+    - SPECCPU2006 12 integer prgs (CINT2006) & 17 floating point prgs (CFP2006)
+        - http://www.spec.org/cpu2006/
+    - **SPECSFS** (NFS file server) and SPECWeb (WebServer) added as server benchmarks
+- Transaction Processing Council measures server performance and cost-performance for databases
+    - TPC-C Complex query for Online Transaction Processing
+    - TPC-H models ad hoc decision support
+    - TPC-W  a transactional web benchmark
+    - TPC-App application server and web services benchmark
+
+** /!\ PAS FINI /!\ **
+
+# Quantitative Principles of Computer Design
+1. **Take Advantage of Parallelism**
+    - Increasing throughput of server computer via multiple processors or multiple disks (at the system level)
+    - At the processor level, **Pipelining**: overlap instruction execution to reduce the total time to complete an instruction sequence. 
+        - Not every instruction depends on immediate predecessor  executing instructions completely/partially in parallel possible
+        - Classic 5-stage pipeline: 
+            1) Instruction Fetch (Ifetch), 
+            2) Register Read (Reg), 
+            3) Execute (ALU), 
+            4) Data Memory Access (Dmem), 
+            5) Register Write (Reg) 
+    - Detailed HW design level
+        - **Carry lookahead adders** uses parallelism to speed up computing sums from linear to logarithmic in number of bits per operand
+        - **Multiple memory banks** searched in parallel in set-associative caches
+    - Pipelined Instruction Execution ![Pipelined_Instruction_Execution.png](image/Pipelined_Instruction_Execution.png)
+        - Limits to pipelining
+            - **Hazards** prevent next instruction from executing during its designated clock cycle
+                - **Structural hazards**: attempt to use the same hardware to do two different things at once
+                - **Data hazards**: Instruction depends on result of prior instruction still in the pipeline
+                - **Control hazards**: Caused by delay between the fetching of instructions and decisions about changes in control flow (branches and jumps).
+2. **Principle of Locality**
+    - The Principle of Locality:
+        - Program access a relatively small portion of the address space at any instant of time.
+    - Two Different Types of Locality:
+        - Temporal Locality (Locality in Time): If an item is referenced, it will tend to be referenced again soon (e.g., loops, reuse)
+        - Spatial Locality (Locality in Space): If an item is referenced, items whose addresses are close by tend to be referenced soon (e.g., straight-line code, array access)
+    - Data acces is more slower when we want to stock a lot of data.
+    ![Levels_of_the_Memory_Hierarchy.png](image/Levels_of_the_Memory_Hierarchy.png)
+3. **Focus on the Common Case**
+    - Common sense guides computer design
+        - Since its engineering, common sense is valuable
+    - In making a design trade-off, favor the frequent case over the infrequent case
+        - E.g., Instruction fetch and decode unit used more frequently than multiplier, so optimize it 1st
+        - E.g., If database server has 50 disks / processor, storage dependability dominates system dependability, so optimize it 1st
+    - Frequent case is often simpler and can be done faster than the infrequent case
+        - E.g., overflow is rare when adding 2 numbers, so improve performance by optimizing more common case of no overflow 
+        - May slow down overflow, but overall performance improved by optimizing for the normal case
+    - What is frequent case and how much performance improved by making case faster => **Amdahl’s Law**
+4. **Amdhal's Law**
+- $ExTime_{new} = ExTime_{old} \times [(1 - Fraction_{enhanced}) + \frac{Fraction_{enhanced}}{Seepdup_{enhanced}}]$
+- $Speedup_{overall} = \frac{ExTime_{old}}{ExTime{new}} = \frac{1}{(1 - Fraction_{enhanced}) + \frac{Fraction_{enhanced}}{Speedup_{enhanced}}}$
+- Best you could ever hope to do is: $Speedup_{maximum} = \frac{1}{1 - Fraction_{enhanced}}$
+- Non-Optimized Portion Slows the Speedups: ![Non-Optimized_Portion_Slows_the_Speedups.png](image/Non-Optimized_Portion_Slows_the_Speedups.png)
+- Amdahl’s Law example on slide 79
+5. **The Processor Performance Equation**
+- $CPU time = \frac{Seconds}{Program} = \frac{Instructions}{Program} \times \frac{Cycles}{Instruction} \times \frac{Seconds}{Cycle}$
+- $CPU time = (CPU clock cycles for a program) \times Clock cycle time$
+    - $CPU Clock cycles = \sum{IC_{i}} \times CP_{i}$ $IC_{i}$: instruction count for instruction $i$, $CPI_{i}$: Clocks per instruction $i = \sum{IC_{i}} \times CP_{i} \times Clock cycle time$
+    - Overall $CPI = \sum{IC_{i}} \times \frac{CPI_{i}}{Instruction count} = \sum{ \frac{IC_{i}}{Instruction Count}} \times CPI_{i} = Instruction Count \times Overall CPI \times Clock cycle time$
+- Example of Evaluating Design Altarnatives on slide 82
+
+## Fallacies and Pitfalls
+- Fallacy: Multiprocessors are a silver bullet
+- Pitfall: Falling prey to Amdahl’s heartbreaking Law
+- Pitfall: A single point of failure
+- Fallacy: Hardware enhancements that increase performance improve energy efficiency or are at worst energy neutral.
+- Fallacy: Benchmarks remain valid indefinitely.
+- Fallacy: The rated mean time to failure of disks is 1,200,000 hours or almost 140 years, so disks practically never fail.
+- Fallacy: Peak performance tracks observed performance.
+- Pitfall: Fault detection can lower availability.

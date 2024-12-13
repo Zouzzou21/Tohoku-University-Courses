@@ -65,7 +65,7 @@ while exit:
                     criterion=criterion, 
                     train_loader=train_loader, 
                     device=device, 
-                    num_epochs=1)
+                    num_epochs=10)
 # Saving the model
         while True:  # Loop to get valid input
             user_save = input("Do you want to save model ? (y/n): ").strip().lower()

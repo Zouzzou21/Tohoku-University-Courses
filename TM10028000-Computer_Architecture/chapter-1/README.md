@@ -15,12 +15,12 @@
 ---
 
 ## Table of Contents
-- Introduction
-- Classes of Computers
-- Defining Computer Architecture
-- Trends in Technology
-- Measuring, Reporting, and Summarizing Performance
-- 5 Quantitative Principles of Computer Design
+- [Introduction](#introduction)
+- [Classes of Computers](#class-of-computers)
+- [Defining Computer Architecture](#defining-computer-architecture)
+- [Trends in Technology](#trends-in-technology)
+- [Measuring, Reporting, and Summarizing Performance](#definition-of-performance)
+- [5 Quantitative Principles of Computer Design](#5-quantitative-principles-of-computer-design)
 
 ---
 
@@ -173,6 +173,9 @@ Requirements in Designing a New Computer
 - Market (applications), and technology decide the requirements.
 - Although technology improves continuously, the impact of these improvements can be in discrete leaps.
 
+---
+
+## Trends in Technology
 Tracking Technology Performance Trends
 - Drill down into 4 technologies:
     - Disks, 
@@ -186,10 +189,45 @@ Tracking Technology Performance Trends
     - E.g., MIPS (million instructions/second), M bits / second over network, M bytes / second from disk
 - **Latency**: elapsed time for a single event
     - E.g., one-way network delay in microseconds, average disk access time in milliseconds
+- **Disk** evolution increase speed W/R, increase cache memory.
+- **LAN** evolution increase speed, decrease gigue.
+- **CPU** evolution increase GHz/s, increase cache memory.
+- Increase of **bandwidth** and decrease **latency**.
+- Scaling of Transistor Performance and Wires.
+- Trends in Power and Energy in Integrated Circuits
+    - For CMOS chips, traditional dominant energy consumption has been in switching transistors, called **dynamic power**: $Power_{dynamic} = \frac{1}{2} \times CapacitiveLoad \times Volateg^{2} \times FrequencySwitched$
+    - And energy is given by : $Energy_{dynamic} = CapacitiveLoad \times Volateg^{2}$
+- Power Estimation vs Energy Estimation
+    - 1 watt = 1 joule per second
+    - $Energy = AveragePower \times ExecutionTime$
+    - Exemple on slide 49 & 52
+- Techniques for Reducing Power
+    - Do nothing
+    - Dynamic Voltage-Frequency Scaling (DVFS)
+    - Design for typical case
+    - Overclocking and turning off cores
+- Static Power Consumption
+    - $Power_{static} = Current_{static} \times Voltage$
+- Trends in Cost
+    - Cost driven down by learning curve
+    - DRAM:  price closely tracks cost
+    - Microprocessors:  price depends on volume
+- Cost of an Integrated Circuit
+    - $Cost of integrated circuit = \frac{Cost of die + Cost of testing die + Cost of packaging and final test}{Final test yield}$
+    - $Cost of die = \frac{Cost of water}{Dies per wafer \times Die yield}$
+    - $Dies per wafer = \frac{\pi \times (\frac{Wafer diameter}{2})^{2}}{Die area} - \frac{\pi \times Wafer diameter}{\sqrt{2 \times Die area}}$
+    - $Die yield = Wafer yied \times \frac{1}{(1 + Defects per unit area \times Die area)^{N}}$
+        - **Die yield**: the fraction of good dies on a wafer number
+            - Inversely proportional to the complexity of the fabrication process
+        - **Wafer yield** accounts for wafers that are completely bad and so need not to be tested (100% wafer yield assumed here)
+        - **Defects per unit area** is a measure of the random manufacturing defects that occur.
+            - 0.1〜0.3 defects per cm2 for 40nm in 2011
+        - N is a parameter called the process-complexity factor, a measure of manufacturing difficulty.  N ranged from 11.5 to 15.5 for 40nm processes in 2010.
+    - Exemple on slide 60
 
-** /!\ PAS FINI /!\ **
+---
 
-## Define and Quantity Dependability
+### Define and Quantity Dependability
 - How decide when a system is operating properly?
 - Infrastructure providers now offer Service Level Agreements (SLA) to guarantee that their networking or power service would be dependable.
 - Systems alternate between 2 states of service with respect to an SLA:
@@ -206,7 +244,7 @@ Tracking Technology Performance Trends
 - **Module availability** measures service as alternation between the 2 states of accomplishment and interruption (number between 0 and 1, e.g. 0.9)
 - **Module availability**: $\frac{MTTF}{MTTF+MTTR}$ $MTBF=MTTR+MTTF$ (exemple slides 64)
 
-## Definition of Performance
+### Definition of Performance
 - Performance is in units of things per sec (bigger is better)
 $performance(x) = \frac{1}{execution_times(x)}$
 "X is n times fatser than Y" means : $n = \frac{Performance(X)}{Performance(Y)} = \frac{Execution_time(Y)}{Execution_time(X)}$
@@ -224,10 +262,12 @@ $performance(x) = \frac{1}{execution_times(x)}$
     - TPC-H models ad hoc decision support
     - TPC-W  a transactional web benchmark
     - TPC-App application server and web services benchmark
+- SPECRatio : Normalize execution times to reference computer, yielding a ratio proportional to performance $= \frac{time on reference computer}{time on computer being rated}$
+- $GeometricMean = \sqrt[n]{\prod_{i=1}^n \text{SPECRatio}_i}$
 
-** /!\ PAS FINI /!\ **
+---
 
-# Quantitative Principles of Computer Design
+## 5 Quantitative Principles of Computer Design
 1. **Take Advantage of Parallelism**
     - Increasing throughput of server computer via multiple processors or multiple disks (at the system level)
     - At the processor level, **Pipelining**: overlap instruction execution to reduce the total time to complete an instruction sequence. 
@@ -278,7 +318,7 @@ $performance(x) = \frac{1}{execution_times(x)}$
     - Overall $CPI = \sum{IC_{i}} \times \frac{CPI_{i}}{Instruction count} = \sum{ \frac{IC_{i}}{Instruction Count}} \times CPI_{i} = Instruction Count \times Overall CPI \times Clock cycle time$
 - Example of Evaluating Design Altarnatives on slide 82
 
-## Fallacies and Pitfalls
+### Fallacies and Pitfalls
 - Fallacy: Multiprocessors are a silver bullet
 - Pitfall: Falling prey to Amdahl’s heartbreaking Law
 - Pitfall: A single point of failure

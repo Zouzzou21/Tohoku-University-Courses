@@ -3,15 +3,15 @@
 ---
 
 ## Table of Contents
-- Von Neumann Model: An Execution Model of Computers
-- Classifying Instruction Set Architectures
-- Memory Addressing
-- Addressing Mode
-- Type and Size of Operands
-- Operations in the Instruction Set
-- Instructions for Control Flow
-- Encoding an Instruction Set
-- Example: MIPS Architecture
+- [Von Neumann Model: An Execution Model of Computers](#von-neumann-model-an-execution-model-of-computers)
+- [Classifying Instruction Set Architectures](#classification-of-instructions-based-on-number-of-operands)
+- [Memory Addressing](#memory-addressing)
+- [Addressing Mode](#addressing-mode)
+- [Type and Size of Operands](#type-and-size-of-operands)
+- [Operations in the Instruction Set](#operations-in-the-instruction-set)
+- [Instructions for Control Flow](#instructions-for-control-flow)
+- [Encoding an Instruction Set](#encoding-an-instruction-set)
+- [Example: MIPS Architecture](#example-mips-architecture)
 
 ---
 

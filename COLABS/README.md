@@ -30,7 +30,9 @@ List of topics that might interest me:
     - [***BrainMRI-Tumor-Classifier-Pytorch***](https://github.com/HalemoGPA/BrainMRI-Tumor-Classifier-Pytorch)
     - [***Brain Tumor Segmentation and Survival Prediction Using Multimodal MRI Scans With Deep Learning***](https://www.frontiersin.org/journals/neuroscience/articles/10.3389/fnins.2019.00810/full)
     - [***MRI-based brain tumor detection using convolutional deep learning methods and chosen machine learning techniques***](https://bmcmedinformdecismak.biomedcentral.com/articles/10.1186/s12911-023-02114-6)
+
 ---
+
 - ~~Handwritten digit recognition with a simple neural network (MNIST)~~
     - ~~[PyTorch Handwritten Digit Recognition](https://github.com/billy-enrizky/Pytorch-Handwritten-Digit-Recognition)~~
     - ~~[Handwritten digit recognition based on the MNIST dataset under PyTorch](https://pdfs.semanticscholar.org/f73b/2aedd9daf30b2b54c4fa0ed9d4a14d236336.pdf)~~
@@ -67,7 +69,9 @@ List of topics that might interest me:
     - ~~[Impact of Traditional and Embedded Image Denoising on CNN-Based Deep Learning](https://www.mdpi.com/2076-3417/13/20/11560)~~
     - ~~[DeblurGAN](https://github.com/KupynOrest/DeblurGAN)~~
     - ~~[Real-ESRGAN: Training Real-World Blind Super-Resolution with Pure Synthetic Data](https://ar5iv.labs.arxiv.org/html/2107.10833)~~
+
 ---
+
 Choosen one:
 - ***Continuing the tumor recognition project on an MRI.***
     - [***Deep Learning for Brain Tumor Classification***](https://ar5iv.labs.arxiv.org/html/2408.00636)

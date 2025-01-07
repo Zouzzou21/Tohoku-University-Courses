@@ -1,5 +1,5 @@
 # [TB14131] (IMAC-U) Practice of information Processing
-Slide are on the google classroom
+
 ## [PIP01](PIP01/README.md)
 ### Course Session Summary
 During this course session, we only learned how to install GCC and Visual Studio Code on Windows.

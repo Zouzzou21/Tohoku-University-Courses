@@ -1,10 +1,10 @@
-# TM10028000 - Computer Architecture
+# [TM10028000] - Computer Architecture
 
 This folder is used for my notes for the TM10028000 - Computer Architecture class.
 
 ---
 
-## Course Summary #1 ([chapter1-6.pdf]-(chapter1-6.pdf))
+## Course Summary #1 ([chapter1-6.pdf](chapter-1/chapter1-6.pdf))
 - [Introduction](chapter-1/README.md/#introduction)
 - [Classes of Computers](chapter-1/README.md/#class-of-computers)
 - [Defining Computer Architecture](chapter-1/README.md/#defining-computer-architecture)
@@ -14,7 +14,7 @@ This folder is used for my notes for the TM10028000 - Computer Architecture clas
 
 ---
 
-## Course Summary #2 ([chapter2.pdf]-(chapter2.pdf))
+## Course Summary #2 ([chapter2.pdf](chapter-2/chapter2.pdf))
 - [Von Neumann Model: An Execution Model of Computers](chapter-2/README.md/#von-neumann-model-an-execution-model-of-computers)
 - [Classifying Instruction Set Architectures](chapter-2/README.md/#classifying-instruction-set-architectures)
 - [Memory Addressing](chapter-2/README.md/#memory-addressing)
@@ -27,7 +27,7 @@ This folder is used for my notes for the TM10028000 - Computer Architecture clas
 
 ---
 
-## Course Summary #3 ([chapter3.pdf]-(chapter3.pdf))
+## Course Summary #3 ([chapter3.pdf](chapter-3/chapter3.pdf))
 - [How computers handle machine instructions](chapter-3/README.md/#how-computers-handle-machine-instructions)
     - [How to Process Machine Instructions](chapter-3/README.md/#how-to-process-machine-instructions)
     - [Basic Steps of Execution of Machine Instructions](chapter-3/README.md/#basic-steps-of-execution-of-machine-instructions)
@@ -77,7 +77,7 @@ This folder is used for my notes for the TM10028000 - Computer Architecture clas
 
 ---
 
-## Course Summary #4 ([chapter4.pdf]-(chapter4.pdf))
+## Course Summary #4 ([chapter4.pdf](chapter-4/chapter4.pdf))
 - [Introduction](chapter-4/README.md/#introduction)
 - [Cache Performance](chapter-4/README.md/#cache-performance)
 - [Eleven Cache Optimizations](chapter-4/README.md/#eleven-cache-optimizations)

@@ -1,8 +1,6 @@
 # [TM10027100] - High Performance Computing
 This course reviews high-performance computing systems from both aspects of hardware and software. The course talks about the importance of parallel processing, parallel system architectures, parallel algorithm design, parallel programming, and performance evaluation methodologies.
 Class materials are uploaded to Google Classroom, and students will do programming practice with their own PCs.
-**Class code：5ht53s3**
-
 
 ## Class ([hpc_01](hpc_01/hpc_01.pdf)) #1
 ### Notes about the first class: [README.md](hpc_01/README.md)

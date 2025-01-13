@@ -1,4 +1,4 @@
-import os, tarfile, gdown, torch, cv2
+import os, torch, cv2 #, tarfile, gdown
 import torch.nn as nn
 import torch.nn.functional as F
 from torchvision import transforms
@@ -8,17 +8,17 @@ from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 import matplotlib.pyplot as plt
 import numpy as np
 
-# Downloading the dataset
-def download_and_extract_tar_gz_dataset_from_gdrive(file_id='16HXjRo49A4WYkaai-vXkIFLnjsDAA4EE', extract_to='data'):
-    """Downloads a .tar.gz file from Google Drive, extracts it, and deletes the original .tar.gz file."""
-    url = f"https://drive.google.com/uc?id={file_id}"
-    output = "data.tar.gz"
-    print("Starting download...")
-    gdown.download(url, output, quiet=False)
-    print(f"Extracting {output} to {extract_to}...")
-    with tarfile.open(output, "r:gz") as tar:
-        tar.extractall(path=extract_to)
-    os.remove(output) if os.path.exists(output) else print(f"{output} not found.")
+# # Downloading the dataset
+# def download_and_extract_tar_gz_dataset_from_gdrive(file_id='16HXjRo49A4WYkaai-vXkIFLnjsDAA4EE', extract_to='data'):
+#     """Downloads a .tar.gz file from Google Drive, extracts it, and deletes the original .tar.gz file."""
+#     url = f"https://drive.google.com/uc?id={file_id}"
+#     output = "data.tar.gz"
+#     print("Starting download...")
+#     gdown.download(url, output, quiet=False)
+#     print(f"Extracting {output} to {extract_to}...")
+#     with tarfile.open(output, "r:gz") as tar:
+#         tar.extractall(path=extract_to)
+#     os.remove(output) if os.path.exists(output) else print(f"{output} not found.")
 
 # Display available GPUs
 def get_gpu_device():

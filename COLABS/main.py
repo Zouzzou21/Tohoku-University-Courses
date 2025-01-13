@@ -7,11 +7,11 @@ from function import *
 print("Checking for GPU availability...")
 device = get_gpu_device()
 
-# Downloading and extracting the dataset
-print("Checking for dataset...")
-if not os.path.exists('data'):
-    print("Downloading and extracting the dataset...")
-    download_and_extract_tar_gz_dataset_from_gdrive()
+# # Downloading and extracting the dataset
+# print("Checking for dataset...")
+# if not os.path.exists('data'):
+#     print("Downloading and extracting the dataset...")
+#     download_and_extract_tar_gz_dataset_from_gdrive()
 
 # Image transformations
 print("Applying image transformations...")

@@ -1,4 +1,5 @@
 import os, torch, cv2 #, tarfile, gdown
+from datetime import datetime
 import torch.nn as nn
 import torch.nn.functional as F
 from torchvision import transforms
@@ -102,7 +103,7 @@ class TumorDetectionCNN(nn.Module):
 
 # Training function
 def train_model(model, optimizer, criterion, train_loader, device, num_epochs=5):
-    print("Starting training...")
+    print(f'{datetime.now().time()} - Starting training...')
     model.train()
     for epoch in range(num_epochs):
         running_loss = 0.0
@@ -118,7 +119,7 @@ def train_model(model, optimizer, criterion, train_loader, device, num_epochs=5)
             optimizer.step()  # Update weights
             # Accumulate loss
             running_loss += loss.item()
-        print(f'Epoch {epoch+1}/{num_epochs}, Loss: {running_loss/len(train_loader)}')
+        print(f'{datetime.now().time()} - Epoch {epoch+1}/{num_epochs}, Loss: {running_loss/len(train_loader)}')
     print("Training completed.")
 
 # Function to evaluate the model on the test dataset

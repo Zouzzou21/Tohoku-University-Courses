@@ -670,7 +670,24 @@ Assume
 ![Loop_Unrolling_with_Speculation-Reorder_Buffer_and_FP_Register_Status.png](image/Loop_Unrolling_with_Speculation-Reorder_Buffer_and_FP_Register_Status.png)
 
 ### Multiple Issue with Speculation
-**slide 74 to check**
+Process multiple instructions per clock assigning reservation stations and reorder buffers to the instructions.
+- **Instructions issue and monitoring the CDBs for instruction completion**
+- **Multiple commits per clock cycle become the major challenges for multiple issue with speculation.**
+
+```assembly
+Loop:   LD R2,0(R1) ;R2=array element
+        DADDIU R2,R2,#1 ;increment R2
+        SD R2,0(R1) ;store result
+        DADDIU R1,R1,#4 ;increment pointer
+        BNE R2,R3,Loop ;branch if not last element
+```
+
+Assume that 
+- there are separate integer FUs for effective address calculation, for ALU operations, and forbranch condition evaluation, and 
+- up to two instructions of any type can commit per clock.
+
+**Create a table for the first three iterations of this loop for machines with and without speculation.**
+
 
 ### Time of Issue, Execution and Writing Result for a Dual-Issue Pipeline **without** Speculation
 ![Time_of_Issue_Execution_and_Writing_Result_for_a_Dual-Issue_Pipeline_without_Speculation.png](image/Time_of_Issue_Execution_and_Writing_Result_for_a_Dual-Issue_Pipeline_without_Speculation.png)

@@ -9,3 +9,6 @@ The pictures use for my test are:
 - Meningioma tumor : [Te-me_0010.jpg](Te-me_0010.jpg) (data/meningioma/Te-me_0010.jpg)
 - No tumor : [Te-no_0010.jpg](Te-no_0010.jpg) (data/notumor/Te-no_0010.jpg)
 - Pituitary tumor: [Te-pi_0010.jpg](Te-pi_0010.jpg) (data/pituitary/Te-pi_0010.jpg)
+
+For `test_model_with_confusion_matrix`:
+No Tumor = `notumor`, Tumor Type 1 = `glioma`, Tumor Type 2 = `meningioma`, Tumor Type 3 = `pituitary`

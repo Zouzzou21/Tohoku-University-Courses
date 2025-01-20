@@ -417,10 +417,10 @@ Let's take the assembly code line by line to perform the calculations.
 ### **Résumé des calculs**
 - **Instruction Bytes**
   - Let's add the size of each line :
-  - $3 + 3 + 1 + 3 + 1 + 3 + 3 + 3 + 1 + 3 + 1 + 3 + 1 + 3 = 32 \, \text{bytes.}$
+  - $3 + 3 + 1 + 3 + 1 + 3 + 3 + 3 + 1 + 3 + 1 + 3 + 1 + 3 = 32  \text{bytes.}$
 - **Memory-data Bytes**
   - Let's add up the memory transfers (readwrite) :
-  - $4 + 4 + 0 + 4 + 0 + 4 + 4 + 4 + 0 + 4 + 0 + 4 + 0 + 4 = 36 \, \text{bytes.}$
+  - $4 + 4 + 0 + 4 + 0 + 4 + 4 + 4 + 0 + 4 + 0 + 4 + 0 + 4 = 36  \text{bytes.}$
 
 
 ### **4. Load-Store Architecture**
@@ -447,10 +447,10 @@ STORE D, R9       ; Store D = R9
      - Opcode : 1 byte.
      - Each specified register 4 bits (or 0.5 byte).
      - An instruction with three registers (eg `ADD R3, R1, R2`) consumes :
-       - **1 byte for opcode** + $ 3 \times 0.5 \, \text{bytes for registers} = 1 + 1.5 = 2.5 $ bytes.
+       - **1 byte for opcode** + $ 3 \times 0.5  \text{bytes for registers} = 1 + 1.5 = 2.5 $ bytes.
        - Rounded to 3 bytes for simplification.
      - An instruction that accesses memory (eg `LOAD`, `STORE`) includes :
-       - **1 byte for opcode** + $ 0.5 \, \text{byte for register} $ + $ 2 \, \text{bytes for memory address} $.
+       - **1 byte for opcode** + $ 0.5  \text{byte for register} $ + $ 2  \text{bytes for memory address} $.
        - Total : $ 1 + 0.5 + 2 = 3.5 $ bytes, rounded to **4 bytes**.
 
 2. **Memory-data Bytes** :
@@ -557,10 +557,10 @@ Let's take the assembly code line by line to perform the calculations.
 ### **Résumé des calculs**
 - **Instruction Bytes**
   - Let's add up the size of the instructions line by line :
-  - $4 + 4 + 3 + 4 + 3 + 4 + 3 + 3 + 3 + 3 + 4 = 38 \, \text{bytes.}$
+  - $4 + 4 + 3 + 4 + 3 + 4 + 3 + 3 + 3 + 3 + 4 = 38  \text{bytes.}$
 - **Memory-data Bytes**
   - Let's add up the memory transfers :
-  - $4 + 4 + 0 + 4 + 0 + 4 + 0 + 0 + 0 + 0 + 4 = 20 \, \text{bytes.}$
+  - $4 + 4 + 0 + 4 + 0 + 4 + 0 + 0 + 0 + 0 + 4 = 20  \text{bytes.}$
 
 
 ### **Conclusion**
@@ -615,11 +615,11 @@ This section analyzes the number of **cache misses** generated during the transp
 
 1. **Data stored in row-major order**: elements of a row are contiguous in memory.
 2. **Cache parameters**:
-   - Total size: $ 16 \, \text{KB} $ ($ 16384 \, \text{bytes} $).
-   - Block size (cache line): $ 64 \, \text{bytes} $, which holds $ 8 \, \text{elements} $ in double precision ($ 8 \, \text{bytes per element} $).
+   - Total size: $ 16 \text{KB} $ ($ 16384  \text{bytes} $).
+   - Block size (cache line): $ 64 \text{bytes} $, which holds $ 8 \text{elements} $ in double precision ($ 8  \text{bytes per element} $).
 3. **Matrix dimensions**:
-   - Total number of elements: $ 256 \times 256 = 65,536 $.
-   - Row size: $ 256 \times 8 = 2048 \, \text{bytes} $.
+   - Total number of elements: $ 256 \times 256 = 65536 $.
+   - Row size: $ 256 \times 8 = 2048 \text{bytes} $.
 
 ### **Memory Access Pattern**
 
@@ -630,8 +630,8 @@ During the transposition, the input ($ \text{input} $) and output ($ \text{outpu
 ### **Cache Miss Calculations**
 
 1. **Accessing the Input Matrix ($ \text{input} $)**
-   - A row contains $ 256 $ elements ($ 2048 \, \text{bytes} $).
-   - Each cache block contains $ 64 \, \text{bytes} $, equivalent to $ 8 \, \text{elements} $.
+   - A row contains $ 256 $ elements ($ 2048  \text{bytes} $).
+   - Each cache block contains $ 64  \text{bytes} $, equivalent to $ 8  \text{elements} $.
    - A cache miss occurs every $ 8 $ elements, resulting in $ \frac{256}{8} = 32 $ misses per row.
    - For $ 256 $ rows:
      $\text{Cache misses for input} = 256 \times 32 = 8,192$
@@ -657,8 +657,8 @@ The goal here is to reduce cache misses during matrix transposition by applying 
 1. **Matrix**: $ 256 \times 256 $ in double precision ($ 8 $ bytes per element).
 2. **Memory storage**: Row-major order (elements in a row are contiguous in memory).
 3. **Cache**:
-   - Total size: $ 16 \, \text{KB} $ ($ 16384 \, \text{bytes} $).
-   - Block size (cache line): $ 64 \, \text{bytes} $, holding $ 8 \, \text{elements} $ in double precision ($ 8 \, \text{bytes per element} $).
+   - Total size: $ 16  \text{KB} $ ($ 16384  \text{bytes} $).
+   - Block size (cache line): $ 64  \text{bytes} $, holding $ 8  \text{elements} $ in double precision ($ 8  \text{bytes per element} $).
    - Cache policy: Fully associative (data can be placed anywhere in the cache).
 
 ### **Determine the Optimal Block Size $ B $**
@@ -669,7 +669,7 @@ For each sub-block $ B \times B $, the data is:
 - **Written to the output matrix ($ \text{output} $)**.
 
 A block $ B \times B $ contains $ B^2 $ elements. Its size in bytes is given by:
-$\text{Block size} = B^2 \times 8 \, \text{bytes}.$
+$\text{Block size} = B^2 \times 8  \text{bytes}.$
 
 #### 2. **Total Cache Usage**
 When processing a block $ B \times B $, both the input and output blocks must fit in the cache. The total size used is:
@@ -698,7 +698,7 @@ For a $ 256 \times 256 $ matrix, divided into $ B \times B $ blocks with $ B = 3
    - The elements within a block are contiguous in memory (for $ \text{input} $), reducing cache misses compared to column-wise access.
 
 3. **Cache Misses for $ \text{input} $**:
-   - Block size: $ 32 \times 8 = 256 \, \text{bytes} $.
+   - Block size: $ 32 \times 8 = 256  \text{bytes} $.
    - A block corresponds to $ \frac{256}{64} = 4 $ cache lines.
    - Each cache line is visited exactly once for $ \text{input} $, so:
      $ \text{Cache misses per block for input} = 4.$
@@ -717,7 +717,7 @@ For a $ 256 \times 256 $ matrix, divided into $ B \times B $ blocks with $ B = 3
 - **Cache misses without blocking**: $ 73728 $.
 - **Cache misses with blocking**: $ 512 $.
 
-Improvement: $\text{Improvement} = \frac{73728 - 512}{73728} \times 100 \approx 99.3 \, \%.$
+Improvement: $\text{Improvement} = \frac{73728 - 512}{73728} \times 100 \approx 99.3  \%.$
 
 ### **Conclusion**
 By applying blocking with $ B = 32 $, the total number of cache misses decreases from **73728** to **512**, representing an improvement of **99.3%**. This optimization demonstrates the effectiveness of blocking in reducing the costs associated with non-contiguous memory access.
@@ -821,7 +821,7 @@ int main() {
 ### **Conclusion**
 The experiment shows a clear relationship between block size ($ B $) and execution time during matrix transposition. By adjusting $ B $, it is possible to balance the overhead of processing smaller blocks and the inefficiencies of cache misses caused by larger blocks.
 
-The optimal block size ($ B_{\text{optimal}} $) is found to be $ 32 $, which minimizes execution time. This corresponds to fully utilizing the cache without causing excessive conflicts or misses. The estimated cache size of the system, based on $ B_{\text{optimal}} $, is $ 16 \, \text{KB} $, matching the theoretical expectations for a $ 256 \times 256 $ matrix.
+The optimal block size ($ B_{\text{optimal}} $) is found to be $ 32 $, which minimizes execution time. This corresponds to fully utilizing the cache without causing excessive conflicts or misses. The estimated cache size of the system, based on $ B_{\text{optimal}} $, is $ 16  \text{KB} $, matching the theoretical expectations for a $ 256 \times 256 $ matrix.
 
 When $ B $ is too small ($ B \leq 8 $), the execution time increases due to the high overhead of frequent block processing. Conversely, when $ B $ is too large ($ B \geq 64 $), execution time also increases because the blocks no longer fit entirely in the cache, leading to more cache misses.
 
@@ -834,20 +834,20 @@ If the blocking effect does not improve performance in specific cases, possible 
 
 
 ## **Part (4)**
-In this section, we analyze how switching from double-precision data ($ 8 \, \text{bytes per element} $) to single-precision data ($ 4 \, \text{bytes per element} $) affects the cache miss rate during matrix transposition. The focus is on understanding how the reduction in data size influences the memory access pattern and improves cache utilization.
+In this section, we analyze how switching from double-precision data ($ 8  \text{bytes per element} $) to single-precision data ($ 4  \text{bytes per element} $) affects the cache miss rate during matrix transposition. The focus is on understanding how the reduction in data size influences the memory access pattern and improves cache utilization.
 
 #### **Impact of Single-Precision Data on Cache Misses**
 
 1. **Data Storage Changes**:
-   - With single-precision data, each element now occupies $ 4 \, \text{bytes} $ instead of $ 8 \, \text{bytes} $.
-   - A single cache line of $ 64 \, \text{bytes} $ can now store $ \frac{64}{4} = 16 $ elements instead of $ 8 $ elements.
+   - With single-precision data, each element now occupies $ 4  \text{bytes} $ instead of $ 8  \text{bytes} $.
+   - A single cache line of $ 64  \text{bytes} $ can now store $ \frac{64}{4} = 16 $ elements instead of $ 8 $ elements.
 
 2. **Access Pattern with Blocking**:
    - In the blocked transposition (using $ B = 32 $):
      - A $ B \times B $ block contains $ 32 \times 32 = 1024 $ elements.
      - Each block now requires fewer cache lines since each line holds more elements.
    - **Number of cache lines per block**:
-     - Block size in bytes: $ 1024 \times 4 = 4096 \, \text{bytes} $.
+     - Block size in bytes: $ 1024 \times 4 = 4096  \text{bytes} $.
      - Cache lines per block: $ \frac{4096}{64} = 64 $ lines.
 
 3. **Reduction in Cache Misses**:
@@ -974,10 +974,10 @@ This section examines the relationship between the block size ($ B $) and the ex
 2. **Cache Size Estimation**:
    - For $ B = 32 $, the data size processed in the cache is:
      $\text{Block size in bytes} = B \times B \times \text{data size per element}.$
-     For double precision ($ 8 \, \text{bytes per element} $):
-     $\text{Block size in cache} = 32 \times 32 \times 8 = 8192 \, \text{bytes}.$
+     For double precision ($ 8  \text{bytes per element} $):
+     $\text{Block size in cache} = 32 \times 32 \times 8 = 8192  \text{bytes}.$
    - Since both input and output blocks need to fit in the cache:
-     $\text{Cache size} \geq 2 \times 8192 = 16384 \, \text{bytes (16 KB)}.$
+     $\text{Cache size} \geq 2 \times 8192 = 16384  \text{bytes (16 KB)}.$
    - This matches the known cache size of the system.
 
 ### **Explaining the Lack of Blocking Effect**
@@ -987,7 +987,7 @@ If increasing $ B $ beyond $ B_{\text{optimal}} $ does not improve performance:
 - **Reason 3**: The system’s prefetching mechanism may already optimize access patterns for smaller blocks.
 
 ### **Conclusion**
-The relationship between block size and execution time highlights the importance of optimizing $ B $ for the cache size. Through experimentation, the optimal block size was determined to be $ B = 32 $, corresponding to a cache size of $ 16 \, \text{KB} $. This demonstrates the effectiveness of blocking in improving cache performance during matrix transposition.
+The relationship between block size and execution time highlights the importance of optimizing $ B $ for the cache size. Through experimentation, the optimal block size was determined to be $ B = 32 $, corresponding to a cache size of $ 16  \text{KB} $. This demonstrates the effectiveness of blocking in improving cache performance during matrix transposition.
 
 <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script type="text/x-mathjax-config">

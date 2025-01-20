@@ -634,21 +634,21 @@ During the transposition, the input ($ \text{input} $) and output ($ \text{outpu
    - Each cache block contains $ 64  \text{bytes} $, equivalent to $ 8  \text{elements} $.
    - A cache miss occurs every $ 8 $ elements, resulting in $ \frac{256}{8} = 32 $ misses per row.
    - For $ 256 $ rows:
-     $\text{Cache misses for input} = 256 \times 32 = 8,192$
+     $\text{Cache misses for input} = 256 \times 32 = 8192$
 
 2. **Accessing the Output Matrix ($ \text{output} $)**
    - Columns are written in a non-contiguous memory order.
    - Each write to a new column causes a cache miss.
    - For $ 256 \times 256 $ elements:
-     $\text{Cache misses for output} = 256 \times 256 = 65,536$
+     $\text{Cache misses for output} = 256 \times 256 = 65536$
 
 3. **Total Cache Misses**
    Adding the two results:
-   $\text{Total cache misses} = 8,192 (\text{input}) + 65,536 (\text{output}) = 73,728$
+   $\text{Total cache misses} = 8192 (\text{input}) + 65536 (\text{output}) = 73728$
 
 ### **Conclusion**
 
-In a implementation of matrix transposition, the total number of cache misses is **73,728**, primarily due to the column-wise access pattern in the output matrix. These results highlight the importance of optimization strategies, such as blocking, to improve cache efficiency.
+In a implementation of matrix transposition, the total number of cache misses is **73728**, primarily due to the column-wise access pattern in the output matrix. These results highlight the importance of optimization strategies, such as blocking, to improve cache efficiency.
 
 ## **Part (2)**
 The goal here is to reduce cache misses during matrix transposition by applying a blocking strategy. This involves dividing the matrix into smaller $ B \times B $ blocks to maximize data reuse in the cache.

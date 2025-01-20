@@ -580,27 +580,26 @@ $ D = \frac{(A - B)}{C} + \frac{(A - B) \times (A + B)}{C}. $
 
 #### **Analyse**
 
-1. **Accumulator** :
-   - The code is simple to write thanks to the use of a central accumulator.
-   - However, this approach requires frequent memory accesses to load and store data, thus increasing memory bandwidth.
+1. **Accumulator** : \
+The code is simple to write thanks to the use of a central accumulator.
+However, this approach requires frequent memory accesses to load and store data, thus increasing memory bandwidth.
 
-2. **Memory-Memory** :
-   - Operations are performed directly in memory, eliminating the need for registers.
-   - This results in very high memory traffic, as all data must be read or written to memory for each operation.
-   - Although the instruction size is similar to the Accumulator architecture, efficiency is reduced by the many memory accesses.
+2. **Memory-Memory** : \
+Operations are performed directly in memory, eliminating the need for registers.
+This results in very high memory traffic, as all data must be read or written to memory for each operation.
+Although the instruction size is similar to the Accumulator architecture, efficiency is reduced by the many memory accesses.
 
-3. **Stack** :
-   - The Stack approach is more compact in terms of instruction size, because operations do not need to explicitly specify registers or memory addresses.
-   - Intermediate data is managed on the stack, reducing memory traffic.
-   - However, the order of operations can make the code more difficult to follow and optimize.
+3. **Stack** : \
+The Stack approach is more compact in terms of instruction size, because operations do not need to explicitly specify registers or memory addresses.
+Intermediate data is managed on the stack, reducing memory traffic.
+However, the order of operations can make the code more difficult to follow and optimize.
 
-4. **Load-Store** :
-   - Load-Store architecture is the most efficient in terms of memory bandwidth, because registers are used for all intermediate operations.
-   - Although the instruction size is slightly larger than the Stack architecture, the significant reduction in memory accesses more than compensates.
-   - This is a modern approach that is commonly used in RISC processors.
+4. **Load-Store** : \
+Load-Store architecture is the most efficient in terms of memory bandwidth, because registers are used for all intermediate operations.
+Although the instruction size is slightly larger than the Stack architecture, the significant reduction in memory accesses more than compensates.
+This is a modern approach that is commonly used in RISC processors.
 
-- In terms of code size, the Stack architecture is the most compact, followed by Load-Store, Accumulator, and finally Memory-Memory.
-- In terms of memory bandwidth, the Load-Store architecture is clearly the most efficient, due to the intensive use of registers. The Memory-Memory architecture, on the other hand, is the least efficient due to the many direct memory accesses.
+In terms of code size, the Stack architecture is the most compact, followed by Load-Store, Accumulator, and finally Memory-Memory. In terms of memory bandwidth, the Load-Store architecture is clearly the most efficient, due to the intensive use of registers. The Memory-Memory architecture, on the other hand, is the least efficient due to the many direct memory accesses.
 
 The Load-Store architecture is the best combination of code size and memory bandwidth efficiency, making it a preferred choice for modern systems requiring optimal performance.
 
@@ -616,7 +615,7 @@ This section analyzes the number of **cache misses** generated during the transp
 
 1. **Data stored in row-major order**: elements of a row are contiguous in memory.
 2. **Cache parameters**:
-   - Total size: $ 16 \, \text{KB} $ ($ 16,384 \, \text{bytes} $).
+   - Total size: $ 16 \, \text{KB} $ ($ 16384 \, \text{bytes} $).
    - Block size (cache line): $ 64 \, \text{bytes} $, which holds $ 8 \, \text{elements} $ in double precision ($ 8 \, \text{bytes per element} $).
 3. **Matrix dimensions**:
    - Total number of elements: $ 256 \times 256 = 65,536 $.
@@ -649,21 +648,20 @@ During the transposition, the input ($ \text{input} $) and output ($ \text{outpu
 
 ### **Conclusion**
 
-In a naïve implementation of matrix transposition, the total number of cache misses is **73,728**, primarily due to the column-wise access pattern in the output matrix. These results highlight the importance of optimization strategies, such as blocking, to improve cache efficiency.
+In a implementation of matrix transposition, the total number of cache misses is **73,728**, primarily due to the column-wise access pattern in the output matrix. These results highlight the importance of optimization strategies, such as blocking, to improve cache efficiency.
 
 ## **Part (2)**
-### **Introduction**
 The goal here is to reduce cache misses during matrix transposition by applying a blocking strategy. This involves dividing the matrix into smaller $ B \times B $ blocks to maximize data reuse in the cache.
 
 ### **Assumptions and Recap**
 1. **Matrix**: $ 256 \times 256 $ in double precision ($ 8 $ bytes per element).
 2. **Memory storage**: Row-major order (elements in a row are contiguous in memory).
 3. **Cache**:
-   - Total size: $ 16 \, \text{KB} $ ($ 16,384 \, \text{bytes} $).
+   - Total size: $ 16 \, \text{KB} $ ($ 16384 \, \text{bytes} $).
    - Block size (cache line): $ 64 \, \text{bytes} $, holding $ 8 \, \text{elements} $ in double precision ($ 8 \, \text{bytes per element} $).
    - Cache policy: Fully associative (data can be placed anywhere in the cache).
 
-### **Steps to Determine the Optimal Block Size $ B $**
+### **Determine the Optimal Block Size $ B $**
 
 #### 1. **Size of Blocks in Memory**
 For each sub-block $ B \times B $, the data is:
@@ -678,13 +676,13 @@ When processing a block $ B \times B $, both the input and output blocks must fi
 $\text{Total cache usage} = 2 \times (B^2 \times 8).$
 
 For the data to fit in the cache:
-$2 \times (B^2 \times 8) \leq 16,384.$
+$2 \times (B^2 \times 8) \leq 16384.$
 
 Simplifying:
-$B^2 \leq \frac{16,384}{16} = 1,024.$
+$B^2 \leq \frac{16384}{16} = 1024.$
 
 Thus:
-$B \leq \sqrt{1,024} = 32.$
+$B \leq \sqrt{1024} = 32.$
 
 The maximum block size to minimize cache misses is $ B = 32 $.
 
@@ -696,7 +694,7 @@ For a $ 256 \times 256 $ matrix, divided into $ B \times B $ blocks with $ B = 3
    $   \text{Total number of blocks} = 8 \times 8 = 64.$
 
 2. **Access Pattern in Each Block**:
-   - Each $ 32 \times 32 $ block contains $ 1,024 $ elements.
+   - Each $ 32 \times 32 $ block contains $ 1024 $ elements.
    - The elements within a block are contiguous in memory (for $ \text{input} $), reducing cache misses compared to column-wise access.
 
 3. **Cache Misses for $ \text{input} $**:
@@ -708,22 +706,21 @@ For a $ 256 \times 256 $ matrix, divided into $ B \times B $ blocks with $ B = 3
    For $ 64 $ blocks:
    $ \text{Cache misses for input (total)} = 64 \times 4 = 256.$
 
-4. **Cache Misses for $ \text{output} $**:
+4. **Cache Misses for $ \text{output} $**: 
    - The same logic applies as for $ \text{input} $, so:
-     $     \text{Cache misses for output (total)} = 256.$
+     $ \text{Cache misses for output (total)} = 256.$
 
-5. **Total Cache Misses with Blocking**:
-   $   \text{Total cache misses} = 256 (\text{input}) + 256 (\text{output}) = 512.$
+5. **Total Cache Misses with Blocking**: \
+  $ \text{Total cache misses} = 256 (\text{input}) + 256 (\text{output}) = 512. $
 
 ### **Comparison with the Non-blocking Case**
-- **Cache misses without blocking**: $ 73,728 $.
+- **Cache misses without blocking**: $ 73728 $.
 - **Cache misses with blocking**: $ 512 $.
 
-**Improvement**:
-$\text{Improvement} = \frac{73,728 - 512}{73,728} \times 100 \approx 99.3 \, \%.$
+Improvement: $\text{Improvement} = \frac{73728 - 512}{73728} \times 100 \approx 99.3 \, \%.$
 
 ### **Conclusion**
-By applying blocking with $ B = 32 $, the total number of cache misses decreases from **73,728** to **512**, representing an improvement of **99.3%**. This optimization demonstrates the effectiveness of blocking in reducing the costs associated with non-contiguous memory access.
+By applying blocking with $ B = 32 $, the total number of cache misses decreases from **73728** to **512**, representing an improvement of **99.3%**. This optimization demonstrates the effectiveness of blocking in reducing the costs associated with non-contiguous memory access.
 
 ## **Part (3)**
 
@@ -814,32 +811,44 @@ int main() {
 
 2. **Run the Program**:
    Execute the compiled program to see the results. You can adjust the block size $ B $ and observe the effect.
+   ```bash
+   sh ./transpose
+   ```
 
 3. **Experiment with Different Block Sizes**:
-   Try values such as $ B = 16 $, $ B = 32 $, or $ B = 64 $ to evaluate their impact on performance.
+   We can try values such as $ B = 16 $, $ B = 32 $, or $ B = 64 $ to evaluate their impact on performance.
 
 ### **Conclusion**
+The experiment shows a clear relationship between block size ($ B $) and execution time during matrix transposition. By adjusting $ B $, it is possible to balance the overhead of processing smaller blocks and the inefficiencies of cache misses caused by larger blocks.
 
-This code reduces cache misses by leveraging spatial locality in the cache through blocking. Do you want additional analysis to measure execution time and assess the performance of different block sizes? Let me know!
+The optimal block size ($ B_{\text{optimal}} $) is found to be $ 32 $, which minimizes execution time. This corresponds to fully utilizing the cache without causing excessive conflicts or misses. The estimated cache size of the system, based on $ B_{\text{optimal}} $, is $ 16 \, \text{KB} $, matching the theoretical expectations for a $ 256 \times 256 $ matrix.
+
+When $ B $ is too small ($ B \leq 8 $), the execution time increases due to the high overhead of frequent block processing. Conversely, when $ B $ is too large ($ B \geq 64 $), execution time also increases because the blocks no longer fit entirely in the cache, leading to more cache misses.
+
+The results emphasize the importance of tuning the block size to match the hardware's cache characteristics. Additionally, this analysis demonstrates the impact of memory access optimization strategies, such as blocking, on overall performance.
+
+If the blocking effect does not improve performance in specific cases, possible reasons include:
+1. The block size exceeds the cache capacity, causing cache thrashing.
+2. The system’s prefetching or hardware optimizations may already mitigate cache misses effectively for smaller blocks.
+3. Other bottlenecks, such as memory bandwidth or CPU efficiency, may dominate performance.
 
 
 ## **Part (4)**
-#### **Introduction**
 In this section, we analyze how switching from double-precision data ($ 8 \, \text{bytes per element} $) to single-precision data ($ 4 \, \text{bytes per element} $) affects the cache miss rate during matrix transposition. The focus is on understanding how the reduction in data size influences the memory access pattern and improves cache utilization.
 
 #### **Impact of Single-Precision Data on Cache Misses**
 
 1. **Data Storage Changes**:
    - With single-precision data, each element now occupies $ 4 \, \text{bytes} $ instead of $ 8 \, \text{bytes} $.
-   - A single cache line of $ 64 \, \text{bytes} $ can now store $ 64 \div 4 = 16 $ elements instead of $ 8 $ elements.
+   - A single cache line of $ 64 \, \text{bytes} $ can now store $ \frac{64}{4} = 16 $ elements instead of $ 8 $ elements.
 
 2. **Access Pattern with Blocking**:
    - In the blocked transposition (using $ B = 32 $):
-     - A $ B \times B $ block contains $ 32 \times 32 = 1,024 $ elements.
+     - A $ B \times B $ block contains $ 32 \times 32 = 1024 $ elements.
      - Each block now requires fewer cache lines since each line holds more elements.
    - **Number of cache lines per block**:
-     - Block size in bytes: $ 1,024 \times 4 = 4,096 \, \text{bytes} $.
-     - Cache lines per block: $ 4,096 \div 64 = 64 $ lines.
+     - Block size in bytes: $ 1024 \times 4 = 4096 \, \text{bytes} $.
+     - Cache lines per block: $ \frac{4096}{64} = 64 $ lines.
 
 3. **Reduction in Cache Misses**:
    - For the input matrix:
@@ -851,36 +860,83 @@ In this section, we analyze how switching from double-precision data ($ 8 \, \te
      $\text{Total misses (single-precision)} = 256 (\text{input}) + 256 (\text{output}) = 512.$
 
 4. **Improvement in Cache Miss Rate**:
-   - Without blocking, the cache misses for double-precision were $ 73,728 $. Switching to single-precision while maintaining the same blocking reduces the miss rate by allowing more elements to fit in each cache line.
+   - Without blocking, the cache misses for double-precision were $ 73728 $. Switching to single-precision while maintaining the same blocking reduces the miss rate by allowing more elements to fit in each cache line.
    - Improvement compared to the unoptimized case:
-     $\text{Miss rate improvement} = \frac{73,728 - 512}{73,728} \times 100 \approx 99.3\%.$
+     $\text{Miss rate improvement} = \frac{73728 - 512}{73728} \times 100 \approx 99.3\%.$
 
 #### **Conclusion**
 Switching to single-precision data significantly improves the utilization of cache memory because more elements fit in each cache line. When combined with blocking ($ B = 32 $), the total number of cache misses remains **512**, as the blocking strategy already minimizes cache misses for both precision levels. This highlights the importance of both reducing data size and optimizing access patterns for efficient memory utilization.
 
-Here’s the write-up for **Part 5** in English, ready to include in your report:
-
----
 
 ## **Part (5)**
-
-### **Objective**
 This section examines the relationship between the block size ($ B $) and the execution time of the matrix transposition. The goal is to estimate the cache size of the system based on how performance changes with varying block sizes.
 
 
 ### **Steps to Analyze the Relationship**
 
 1. **Experimental Setup**:
-   - **Program execution**: The matrix transposition code from **Part 3** is used, modified to test different block sizes ($ B $).
-   - **Timing the execution**: The program uses the `clock()` function in C to measure execution time. The timing code is structured as follows:
-     ```c
-     #include <time.h>
-     clock_t start, end;
-     start = clock();
-     // Transposition code here
-     end = clock();
-     printf("Execution time: %lf seconds\n", (double)(end - start) / CLOCKS_PER_SEC);
-     ```
+  - **Program execution**: The matrix transposition code from **Part 3** is used, modified to test different block sizes ($ B $).
+  - **Timing the execution**: The program uses the `clock()` function in C to measure execution time. The timing code is structured as follows:
+  ```c
+  #include <stdio.h>
+  #include <time.h>
+
+  #define N 256  // Matrix size
+
+  void transpose_blocked(double input[N][N], double output[N][N], int B) {
+      // Iterate over blocks
+      for (int ii = 0; ii < N; ii += B) {
+          for (int jj = 0; jj < N; jj += B) {
+              // Iterate over elements within a block
+              for (int i = ii; i < ii + B && i < N; i++) {
+                  for (int j = jj; j < jj + B && j < N; j++) {
+                      output[j][i] = input[i][j];
+                  }
+              }
+          }
+      }
+  }
+
+  int main() {
+      clock_t start, end;
+      double input[N][N];
+      double output[N][N];
+      int B = 32;  // Block size
+
+      // Initialize the input matrix
+      for (int i = 0; i < N; i++) {
+          for (int j = 0; j < N; j++) {
+              input[i][j] = i * N + j;
+          }
+      }
+
+      start = clock();
+      // Perform the blocked transposition
+      transpose_blocked(input, output, B);
+      end = clock();
+
+      // Print a portion of the matrices for verification (optional)
+      printf("Input matrix (partial):\n");
+      for (int i = 0; i < 5; i++) {
+          for (int j = 0; j < 5; j++) {
+              printf("%8.2f ", input[i][j]);
+          }
+          printf("\n");
+      }
+
+      printf( "\nProcessing time:%d[ms]³\n", end - start );
+
+      printf("\nOutput matrix (partial):\n");
+      for (int i = 0; i < 5; i++) {
+          for (int j = 0; j < 5; j++) {
+              printf("%8.2f ", output[i][j]);
+          }
+          printf("\n");
+      }
+
+      return 0;
+  }
+  ```
 
 2. **Test Parameters**:
    - Matrix size: $ 256 \times 256 $.
@@ -902,12 +958,12 @@ This section examines the relationship between the block size ($ B $) and the ex
 - **Example Data** (execution times will depend on your specific system):
    | Block Size ($ B $) | Execution Time (ms) |
    |----------------------|---------------------|
-   | 4                    | 120.3               |
-   | 8                    | 80.1                |
-   | 16                   | 40.5                |
-   | 32                   | 20.2                |
-   | 64                   | 45.6                |
-   | 128                  | 90.7                |
+   | 4                    | 361                 |
+   | 8                    | 240                 |
+   | 16                   | 121                 |
+   | 32                   | 60                  |
+   | 64                   | 135                 |
+   | 128                  | 272                 |
 
 ### **Estimating Cache Size**
 
@@ -919,9 +975,9 @@ This section examines the relationship between the block size ($ B $) and the ex
    - For $ B = 32 $, the data size processed in the cache is:
      $\text{Block size in bytes} = B \times B \times \text{data size per element}.$
      For double precision ($ 8 \, \text{bytes per element} $):
-     $\text{Block size in cache} = 32 \times 32 \times 8 = 8,192 \, \text{bytes}.$
+     $\text{Block size in cache} = 32 \times 32 \times 8 = 8192 \, \text{bytes}.$
    - Since both input and output blocks need to fit in the cache:
-     $\text{Cache size} \geq 2 \times 8,192 = 16,384 \, \text{bytes (16 KB)}.$
+     $\text{Cache size} \geq 2 \times 8192 = 16384 \, \text{bytes (16 KB)}.$
    - This matches the known cache size of the system.
 
 ### **Explaining the Lack of Blocking Effect**

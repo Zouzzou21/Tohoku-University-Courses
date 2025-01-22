@@ -74,7 +74,7 @@ class TumorDataset(Dataset):
             for img_name in os.listdir(folder_path):
                 img_path = os.path.join(folder_path, img_name)
                 self.images.append(img_path)
-                self.labels.append(label)  # 0 for no_tumor, 1 for tumor
+                self.labels.append(label)
     def __len__(self):
         return len(self.images)
     def __getitem__(self, idx):

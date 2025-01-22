@@ -1,6 +1,6 @@
 # Things to ignore special COLABS
 __pycache__
-Test*
+Test/*
 data*
 *.pth
 main_*

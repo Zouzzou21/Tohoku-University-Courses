@@ -81,3 +81,6 @@ Not obligatory because many seminars are held in Japanese and not in English. It
     - [***MRI-based brain tumor detection using convolutional deep learning methods and chosen machine learning techniques***](https://bmcmedinformdecismak.biomedcentral.com/articles/10.1186/s12911-023-02114-6)
 
 ---
+
+https://arxiv.org/pdf/2408.00636
+https://pubmed.ncbi.nlm.nih.gov/38223737/

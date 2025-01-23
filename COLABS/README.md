@@ -64,6 +64,7 @@ You can then choose whether to:
 
 Afterward, select the specific test you want to perform with the model.
 
+I also put an archive of some pre-trained model on my Google Drive: https://drive.google.com/file/d/1djip6a5tOb3r8YZXNFj6JAhi5rRDQOQV/view?usp=sharing
 
 ### Docker (Work in Progress)
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)

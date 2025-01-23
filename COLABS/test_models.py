@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.optim as optim
 from torchvision import models, transforms
 from torch.utils.data import DataLoader
-from function import TumorDataset, train_model, test_model_with_confusion_matrix, test_model
+from function import TumorDataset, train_model, test_model_with_confusion_matrix, test_model, save_model
 
 # Check for GPU availability
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -46,6 +46,8 @@ def test_model_pipeline(model_name, model, train_loader, test_loader, device):
 
     # Test overall metrics
     test_model(model, test_loader, device)
+
+    save_model(model)
 
 # Load the dataset
 print("Loading the dataset...")

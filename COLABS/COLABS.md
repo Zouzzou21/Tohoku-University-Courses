@@ -82,5 +82,4 @@ Not obligatory because many seminars are held in Japanese and not in English. It
 
 ---
 
-https://arxiv.org/pdf/2408.00636
 https://pubmed.ncbi.nlm.nih.gov/38223737/

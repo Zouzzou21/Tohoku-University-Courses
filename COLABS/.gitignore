@@ -1,7 +1,6 @@
 # Things to ignore special COLABS
 __pycache__
-Test/*
+test/*
 data*
 *.pth
-main_*
-state_machine.py
+*.tar.gz

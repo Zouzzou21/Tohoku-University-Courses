@@ -1,6 +1,6 @@
 # Things to ignore special COLABS
 __pycache__
-.venv
+.venv*
 test/*
 data*
 *.pth

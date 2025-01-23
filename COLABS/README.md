@@ -12,6 +12,8 @@ data/
 ```
 For testing, the [Brain Tumor MRI Dataset - Masoud Nickparvar](https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset) from Kaggle is recommended.
 
+I also put an archive on my Google Drive: https://drive.google.com/file/d/16mQqDbM73ljmPcJYmiKNtwNhVghBPyvN/view?usp=sharing
+
 ## 2. Dependencies:
 To run this program, you need to install a few dependencies using pip or conda. This example uses pip.
 

@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.optim as optim
 from torchvision import models, transforms
 from torch.utils.data import DataLoader
-from function import TumorDataset, train_model, test_model_with_confusion_matrix, test_model, save_model
+from function import *
 
 # Check for GPU availability
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -40,12 +40,29 @@ def test_model_pipeline(model_name, model, train_loader, test_loader, device):
         num_epochs=100  # You can change this value
     )
     
-    # Test the model with confusion matrix
+    # Test the model
     print(f"Evaluating {model_name}...")
+
+    # Test tumor highlight
+    display_tumor_highlight(model, device, "results/Te-gl_0010.jpg", transform)
+    # Test tumor highlight
+    display_tumor_highlight(model, device, "results/Te-me_0010.jpg", transform)        
+    # Test tumor highlight
+    display_tumor_highlight(model, device, "results/Te-no_0010.jpg", transform)
+    # Test tumor highlight
+    display_tumor_highlight(model, device, "results/Te-pi_0010.jpg", transform)
+
+    # Test confusion matrix
     test_model_with_confusion_matrix(model, test_loader, device)
 
     # Test overall metrics
     test_model(model, test_loader, device)
+
+    # Test visualizing some predictions
+    visualize_predictions(model=model, 
+                        test_loader=test_loader, 
+                        device=device, 
+                        num_images=5)
 
     save_model(model)
 

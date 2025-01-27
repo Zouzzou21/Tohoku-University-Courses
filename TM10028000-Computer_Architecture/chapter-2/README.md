@@ -1,10 +1,11 @@
-# Computer Architecture Design (CAD) - Course Summary #2 ([chapter2.pdf]-(chapter2.pdf))
+# Computer Architecture Design (CAD) - Course Summary #2 ([chapter2.pdf](chapter2.pdf))
 
 ---
 
 ## Table of Contents
 - [Von Neumann Model: An Execution Model of Computers](#von-neumann-model-an-execution-model-of-computers)
-- [Classifying Instruction Set Architectures](#classification-of-instructions-based-on-number-of-operands)
+- [Classifying Instruction Set Architectures](#classifying-instruction-set-architectures)
+- [Classification of Instructions based on Number of Operands](#classification-of-instructions-based-on-number-of-operands)
 - [Memory Addressing](#memory-addressing)
 - [Addressing Mode](#addressing-mode)
 - [Type and Size of Operands](#type-and-size-of-operands)
@@ -12,6 +13,8 @@
 - [Instructions for Control Flow](#instructions-for-control-flow)
 - [Encoding an Instruction Set](#encoding-an-instruction-set)
 - [Example: MIPS Architecture](#example-mips-architecture)
+- [Fallacies and Pitfalls](#fallacies-and-pitfalls)
+- [Conclusion](#conclusion)
 
 ---
 

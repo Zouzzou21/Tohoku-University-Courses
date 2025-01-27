@@ -1,26 +1,26 @@
-# Computer Architecture Design (CAD) - Course Summary #1 ([chapter1-6.pdf]-(chapter1-6.pdf))
+# Computer Architecture Design (CAD) - Course Summary #1 ([chapter1-6.pdf](chapter1-6.pdf))
 
 ---
 
 ## Instructor
 - Hiroaki Kobayashi
     - Professor, Graduate School of Information Sciences 
-    - Office:Room523, 5-th floor, Mechanical Engineering Building No.2
-    - E-mail: koba@tohoku.ac.jp
 - Masayuki Sato
     - Associate Professor, Graduate School of Information Sciences
-    - Office: Room 525 in the same building
-    - E-mail: masa@tohoku.ac.jp
 
 ---
 
 ## Table of Contents
+- [Instructor](#instructor)
+- [Table of Contents](#table-of-contents)
 - [Introduction](#introduction)
-- [Classes of Computers](#class-of-computers)
+- [Class of Computers](#class-of-computers)
 - [Defining Computer Architecture](#defining-computer-architecture)
 - [Trends in Technology](#trends-in-technology)
-- [Measuring, Reporting, and Summarizing Performance](#definition-of-performance)
+- [Define and Quantity Dependability](#define-and-quantity-dependability)
+- [Definition of Performance](#definition-of-performance)
 - [5 Quantitative Principles of Computer Design](#5-quantitative-principles-of-computer-design)
+- [Fallacies and Pitfalls](#fallacies-and-pitfalls)
 
 ---
 

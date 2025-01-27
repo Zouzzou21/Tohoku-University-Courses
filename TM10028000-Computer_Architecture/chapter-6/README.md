@@ -1,4 +1,4 @@
-# Computer Architecture Design (CAD) - Course Summary #6 ([chapter6.pdf]-(chapter6.pdf))
+# Computer Architecture Design (CAD) - Course Summary #6 ([chapter6.pdf](chapter6.pdf))
 
 ---
 

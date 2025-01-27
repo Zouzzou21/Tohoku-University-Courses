@@ -1,22 +1,68 @@
-# Computer Architecture Design (CAD) - Course Summary #5 ([chapter5.pdf]-(chapter5.pdf))
+# Computer Architecture Design (CAD) - Course Summary #5 ([chapter5.pdf](chapter5.pdf))
 
 ---
 
 ## Table of Contents
-
+1. [Trends in Computer Architecture Design](#trends-in-computer-architecture-design)
+    - [Techniques to Avoid Pipeline-Stalls](#techniques-to-avoid-pipeline-stalls)
+2. [Importance of Data Dependences and Hazards](#importance-of-data-dependences-and-hazards)
+3. [Data Dependences](#data-dependences)
+    - [Name Dependences](#name-dependences)
+4. [Data Hazards](#data-hazards)
+    - [Types of Data Hazards](#types-of-data-hazards)
+5. [Exploiting Instruction-Level Parallelism with Hardware Approaches](#exploiting-instruction-level-parallelism-with-hardware-approaches)
+    - [Overcoming Data Hazards with Dynamic Scheduling](#overcoming-data-hazards-with-dynamic-scheduling)
+    - [Dynamic Scheduling: The Idea](#dynamic-scheduling-the-idea)
+    - [Some Concerns about Dynamic Scheduling](#some-concerns-about-dynamic-scheduling)
+    - [New Pipeline Staging for Out-Of-Order Execution](#new-pipeline-staging-for-out-of-order-execution)
+    - [Basic Dynamic Scheduling](#basic-dynamic-scheduling)
+    - [Scoreboarding (First introduced in CDC6600)](#scoreboarding-first-introduced-in-cdc6600)
+    - [The basic four steps for scoreboarding](#the-basic-four-steps-for-scoreboarding)
+    - [Data Structures for Scoreboarding](#data-structures-for-scoreboarding)
+    - [Required Checks and Bookkeeping Actions](#required-checks-and-bookkeeping-actions)
+    - [Factors Limiting the Scoreboard Performance](#factors-limiting-the-scoreboard-performance)
+6. [Tomasulo’s Approach: Solve the Problems of Scoreboarding!](#tomasulos-approach-solve-the-problems-of-scoreboarding)
+    - [Dynamic Scheduling with Register Renaming](#dynamic-scheduling-with-register-renaming)
+    - [Reservation Stations for Register Renaming](#reservation-stations-for-register-renaming)
+    - [The Advantages of Tomasulo’s Approach](#the-advantages-of-tomasulos-approach)
+    - [Pipeline Stages for Tomasulo’s Approach](#pipeline-stages-for-tomasulos-approach)
+    - [Dynamic Scheduling Example by Tomasulo’s Approach](#dynamic-scheduling-example-by-tomasulos-approach)
+    - [Dynamic Disambiguation of Memory Addresses](#dynamic-disambiguation-of-memory-addresses)
+    - [Summary of the Tomasulo’s Approach](#summary-of-the-tomasulos-approach)
+7. [Reducing Branch Costs with Dynamic Hardware Prediction](#reducing-branch-costs-with-dynamic-hardware-prediction)
+    - [Control (Branch) Hazards](#control-branch-hazards)
+    - [Basic Branch Prediction and Branch-Prediction Buffers](#basic-branch-prediction-and-branch-prediction-buffers)
+    - [1-bit Prediction Scheme](#1-bit-prediction-scheme)
+    - [2-bit Prediction Scheme](#2-bit-prediction-scheme)
+    - [What Kind of Accuracy Can Be Expected From A 2-bit Branch Prediction](#what-kind-of-accuracy-can-be-expected-from-a-2-bit-branch-prediction)
+    - [How Can We Improve the Accuracy of Branch Prediction?](#how-can-we-improve-the-accuracy-of-branch-prediction)
+    - [Correlating/Two-Level Predictors: Basic Idea](#correlatingtwo-level-predictors-basic-idea)
+    - [(m, n) Predictors](#m-n-predictors)
+    - [Comparison of 2-bit predictors](#comparison-of-2-bit-predictors)
+    - [Pipelining with Branch Prediction](#pipelining-with-branch-prediction)
+    - [Penalties of Branch Misprediction](#penalties-of-branch-misprediction)
+8. [Taking Advantage of More ILP with Multiple Issue](#taking-advantage-of-more-ilp-with-multiple-issue)
+    - [Characterization of Superscalar Processors](#characterization-of-superscalar-processors)
+    - [Statically Scheduled Superscalar Processors](#statically-scheduled-superscalar-processors)
+    - [Multiple Instruction Issue with Dynamic Scheduling](#multiple-instruction-issue-with-dynamic-scheduling)
+    - [Factors Limiting Performance of the Two-Issue Dynamically Scheduled Pipeline](#factors-limiting-performance-of-the-two-issue-dynamically-scheduled-pipeline)
+9. [Speculation](#speculation)
+    - [Hardware-based Speculation: Three Key Ideas](#hardware-based-speculation-three-key-ideas)
+    - [Extension of Tomasulo’s Algorithm for Speculation: Basic Idea](#extension-of-tomasulos-algorithm-for-speculation-basic-idea)
+    - [Implementation](#implementation)
+    - [Pipe Stages for Speculation](#pipe-stages-for-speculation)
+    - [Loop Unrolling with Speculation](#loop-unrolling-with-speculation)
+    - [Multiple Issue with Speculation](#multiple-issue-with-speculation)
+10. [The ARM Cortex-A8](#the-arm-cortex-a8)
+    - [Decode and Execution](#decode-and-execution)
+    - [Performance of A8](#performance-of-a8)
+    - [A8 vs. A9](#a8-vs-a9)
+11. [The Intel Core i7](#the-intel-core-i7)
+    - [Ratio of Wasted Work in Speculation](#ratio-of-wasted-work-in-speculation)
+    - [CPI for SPECCPU2006 on Core i7](#cpi-for-speccpu2006-on-core-i7)
+12. [Exploiting Instruction-Level Parallelism with Software Approaches](#exploiting-instruction-level-parallelism-with-software-approaches)
 
 ---
-
-
-## Table of contents
-1. Trends in Computer Architecture Design
-2. Instruction Set Principles and Examples
-3. Pipelining
-4. Memory Hierarchy (1/7)
-5. Instruction Level Parallelism and Its Exploitation(1/7?) 
-6. Multicores, Multiprocessors, and Clusters (1/14)
-7. Data-Level Parallelism: SIMD, Vector, and GPU (1/14)
-8. Warehouse-Scale Computers (1/21)
 
 ## Trends in Computer Architecture Design
 ### Techniques to Avoid Pipeline-Stalls
@@ -209,7 +255,7 @@ This is due to...
 3. The presence of antidependences and output dependences **unavoidable**!
     - These lead to WAR and WAW stalls
 
-### Tomasulo’s Approach: Solve the Problems of Scoreboarding!
+## Tomasulo’s Approach: Solve the Problems of Scoreboarding!
 Invented by Robert Tomasulo for IBM 360/91 FP units
 - Tracks when operands for instructions are available, to minimize RAW hazards
     - Reservation stations of functional units buffers the operands of instructions waiting to issue
@@ -346,7 +392,7 @@ Instruction Status
         - Although additional CDBs can be added, each CDB must interact with each reservation station, and the associative tag-matching hardware would need to be duplicated at each station for each CDB
     - The size of the reservation stations limits the ILP exploited.
 
-### Reducing Branch Costs with Dynamic Hardware Prediction
+## Reducing Branch Costs with Dynamic Hardware Prediction
 - As the amount of ILP to exploit grows, control dependences rapidly become the limiting factor.
     - Branches will arrive up to n times faster in an n-issue processor and providing an instruction stream to the processor will  require that we predict the outcome of branches.
     - Amdahl’s Law reminds us that relative impact of the control stalls will be larger with the low potential CPI in such machines.
@@ -373,7 +419,7 @@ Instruction Status
 
 ![Basic_Branch_Prediction_and_Branch-Prediction_Buffers.png](image/Basic_Branch_Prediction_and_Branch-Prediction_Buffers.png)
 
-### How many bits are required for accurate prediction?
+### 1-bit Prediction Scheme
 - 1-bit prediction scheme
     - 1-bit holds the information about last branch direction.
     - If the prediction turns out to be wrong, the prediction bit is inverted and stored back.
@@ -485,7 +531,7 @@ Assume that 60% of the branches are taken.
     - Probability (branch not in buffer, but actually taken)
     - $\text{Branch penalty} = (\text{the probability of two events}) \times (\text{penalty cycles})$
 
-### Taking Advantage of More ILP with Multiple Issue
+## Taking Advantage of More ILP with Multiple Issue
 - Goal: Decrease the CPI to less than one!
     - Superscalar processors and 
     - VLIW (very long instruction word) processors
@@ -549,7 +595,7 @@ Assume that 60% of the branches are taken.
     - Two out of five instructions (DADDIU and BNE) are overhead.
 - The control hazard, which prevents us from starting the next *LD* before we know whether the branch was correctly predicted, causes a one-cycle penalty on every loop iteration.
 
-### Speculation
+## Speculation
 - Efficient handling of branch instructions is key for wide-issue superscalar processors 
 
 👍 Overcoming control dependence is done by **speculating** on the outcome of branches and **executing** the program as if our guesses were correct

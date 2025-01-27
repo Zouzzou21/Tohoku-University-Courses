@@ -1,5 +1,5 @@
 
-# Computer Architecture Design (CAD) - Course Summary #3 ([chapter3.pdf]-(chapter3.pdf))
+# Computer Architecture Design (CAD) - Course Summary #3 ([chapter3.pdf](chapter3.pdf))
 
 ---
 

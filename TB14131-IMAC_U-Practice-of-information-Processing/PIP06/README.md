@@ -1,5 +1,5 @@
 # Detailed Summary of Lecture 6: Programming in C (PIP06 - IMACU)
-
+[PIP06_slide2024.pdf](PIP06_slide2024.pdf)
 ## Table of Contents
 
 1. [Pointers and Memory Addressing](#1-pointers-and-memory-addressing)

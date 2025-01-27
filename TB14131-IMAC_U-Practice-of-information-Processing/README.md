@@ -112,3 +112,29 @@ In this session, we explored pointers, memory addressing, function calls, and fi
 - **Pointers and Memory**: Effective memory management using pointers.
 - **File I/O**: Essential functions for file operations.
 - **Next Lecture Topics**: Further exploration of pointers and final report preparation.
+
+## [PIP07](PIP07/README.md)
+### Course Session Summary
+In this session, we explored advanced concepts in C programming, focusing on pointers, memory management, and practical applications through structured exercises.
+#### Pointers and Memory Management
+- **Pointer Operations**: Techniques to manipulate memory addresses and perform arithmetic on pointers.
+- **Relationship Between Arrays and Pointers**: Understanding array name equivalence to pointers and efficient data handling.
+- **Dynamic Memory Allocation**: Using malloc to allocate memory dynamically and free to release it.
+#### Function Applications
+- **Call-by-Value vs. Call-by-Reference**: Passing arguments as values or addresses to enhance flexibility and efficiency.
+- **Max-Min Finder**: Creating and utilizing functions to find maximum and minimum values in arrays through pointers.
+#### File and Data Management
+**File I/O Basics**: Utilizing file pointers and access modes for reading and writing.
+**CSV File Handling**: Parsing and managing structured data using custom C functions.
+#### Structured Programming
+**Structures in C**: Combining multiple data types into unified structures for easier data handling.
+**Pointers to Structures**: Accessing and modifying structure members efficiently using pointers.
+#### Key Exercises
+**Pointer Operations**: Manipulating arrays and variables through pointers.
+**Dynamic Arrays**: Allocating arrays during runtime based on user input.
+**File Parsing**: Reading and processing data from files like CSV.
+**Structure Pointers**: Using functions to manipulate structure data and manage arrays of structures.
+### Summary of Key Concepts
+- **Pointers**: Essential for memory management, efficient data passing, and dynamic allocation.
+- **File Operations**: Key for managing external data inputs and outputs.
+- **Structures**: Simplify complex data handling and enable modular programming.

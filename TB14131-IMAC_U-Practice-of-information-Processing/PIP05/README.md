@@ -1,5 +1,5 @@
 # Detailed Summary of Lecture: Practice of Information Processing (PIP05)
-
+[PIP05_slide2024.pdf](PIP05_slide2024.pdf)
 ## Lecture Contents Overview
 1. **Previous Exercises Overview**  
    - Review of bubble sort and other sorting algorithms.

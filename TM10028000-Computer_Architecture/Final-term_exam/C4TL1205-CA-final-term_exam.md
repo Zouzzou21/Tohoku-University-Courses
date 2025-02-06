@@ -4,11 +4,37 @@
 ---
 
 # Table of Contents
-
-
+- [Question (a)](#question-a)
+  - [Tomasulo's Algorithm](#tomasulos-algorithm)
+  - [Understanding the Given Code](#understanding-the-given-code)
+  - [Code Breakdown](#code-breakdown)
+  - [Breakdown of Each Instruction](#breakdown-of-each-instruction)
+  - [Functional Unit Latencies](#functional-unit-latencies)
+  - [Execution Schedule ](#execution-schedule)
+  - [Key Observations in the Execution Schedule](#key-observations-in-the-execution-schedule)
+  - [How Execution Overlaps Between Iterations](#how-execution-overlaps-between-iterations)
+  - [Conclusion: Execution Time Per Iteration](#conclusion-execution-time-per-iteration)
+- [Question (b)](#question-b)
+  - [Two-Issue Pipeline](#two-issue-pipeline)
+  - [Functional Unit Latencies (Revisited)](#functional-unit-latencies-revisited)
+  - [Execution Schedule](#execution-schedule-1)
+  - [Key Observations and Execution Efficiency](#key-observations-and-execution-efficiency)
+  - [Performance Gain Analysis & Conclusion](#performance-gain-analysis-conclusion)
+- [Question (c)](#question-c)
+  - [CDB Contention](#cdb-contention)
+  - [Constructing a Problematic Sequence](#constructing-a-problematic-sequence)
+  - [Analyzing the Execution and CDB Contention](#analyzing-the-execution-and-cdb-contention)
+  - [Optimization Strategies](#optimization-strategies)
+  - [Conclusion](#conclusion)
+- [Question (d)](#question-d)
+  - [Register Renaming](#register-renaming)
+  - [Identifying Registers in the Original Loop](#identifying-registers-in-the-original-loop)
+  - [Applying Register Renaming](#applying-register-renaming)
+  - [Advantages of Register Renaming](#advantages-of-register-renaming)
+  - [Execution Schedule with Register Renaming](#execution-schedule-with-register-renaming)
+  - [Conclusion](#conclusion-1)
 
 ---
-
 
 ## Question (a)
 
@@ -27,7 +53,7 @@ This technique reduces pipeline stalls caused by RAW (Read-After-Write) hazards,
   4. Execution starts only when all operands are ready.
 
 ### **Understanding the Given Code**
-The **DAXPY loop** (Double-Precision A·X Plus Y) is a common operation in numerical computing, performing:
+The DAXPY loop (Double-Precision A·X Plus Y) is a common operation in numerical computing, performing:
 
 $Y(i) = a \cdot X(i) + Y(i)$
 
@@ -85,7 +111,7 @@ In this problem, the given latencies are as follows:
 | FP Multiplier (MUL.D) | 15 | 1 |
 | Load/Store (L.D / S.D) | 1 | - |
 
-### **Execution Schedule (First Iteration)**
+### **Execution Schedule**
 In a single-issue pipeline, only one instruction can issue per cycle, meaning instructions enter the pipeline sequentially and execute based on their dependencies and resource availability. Below is a breakdown of how the first three iterations of the loop execute in Tomasulo’s Algorithm while handling latencies, stalls, and instruction overlaps.
 
 | Iteration | Instructions       | Issue at | Executes  | Memory access at | Write CDB at | Comment                         |
@@ -236,7 +262,7 @@ Since pipelining is enabled, new instructions can start execution before previou
 #### **Key Changes Compared to Part (a)**
 In this improved pipeline, MUL.D and ADD.D are now pipelined, allowing a new multiplication or addition instruction to start every cycle, even before the previous one finishes. This enables overlapping execution, reducing delays caused by long floating-point operation latencies. Additionally, the two-issue capability allows the processor to issue two instructions per cycle, improving instruction throughput and significantly reducing stalls compared to the single-issue pipeline in Part (a).
 
-### **Execution Schedule (First Iteration)**
+### **Execution Schedule**
 In this two-issue pipeline, two instructions are issued per cycle whenever possible, reducing stalls and improving parallel execution. Floating-point units (FPUs) are pipelined, meaning multiple operations can be in progress simultaneously, overlapping execution stages.
 Below is a detailed breakdown of how the first three iterations of the loop execute, handling dependencies, stalls, and overlapping execution.
 
